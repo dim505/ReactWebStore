@@ -1,4 +1,5 @@
 ﻿import React, { Component } from 'react';
+import Axios from 'axios'
 
 
 
@@ -6,10 +7,26 @@ export default class ProdDesc extends Component {
     constructor(props) {
 
         super(props);
-        this.state = { name: 'Product Name', description: 'product description', price: "Product Price"};
+        this.state = [];
 
 
 
+
+
+    }
+
+
+
+    async componentDidMount() {
+        let results = await Axios(`/api/Productapi/${this.props.match.params.id}`)
+        
+        this.setState({
+            name: results.data.name,
+            description: results.data.desc,
+            price: results.data.price
+
+
+        })
 
 
     }
