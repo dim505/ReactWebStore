@@ -3,6 +3,7 @@ import Axios from 'axios'
 
 
 
+
 export default class ProdDesc extends Component {
     constructor(props) {
 
@@ -21,9 +22,10 @@ export default class ProdDesc extends Component {
         let results = await Axios(`/api/Productapi/${this.props.match.params.id}`)
         
         this.setState({
-            name: results.data.name,
-            description: results.data.desc,
-            price: results.data.price
+            name: results.data[0].name,
+            description: results.data[0].longDesc,
+            price: results.data[0].price,
+            ImgLoc: results.data[0].imgPath
 
 
         })
@@ -32,18 +34,27 @@ export default class ProdDesc extends Component {
     }
     render() {
 
+        
+            window.progressively.init();
+        
 
 
 
         return <div className="Row">
             <div className="col-12">
                 <div className="media">
-                    <img className="mr-3" style={{ width: 600, height: 600 }} src="https://images.carpages.ca/inventory/3154174.99875507?w=1280&h=960&q=75&fit=max&s=ac1985a51f127cc94e73e9be61154aed" alt=""/>
+
+                    <figure className="progressive">
+
+                        <img data-progressive={this.state.ImgLoc} src={this.state.ImgLoc} className="mr-3 progressive__img progressive--not-loaded" style={{ width: 600, height: 600 }} alt=""/>
+                    </figure>
+
+
                     <div className="media-body">
 
                         <h1> {this.state.name} </h1>
                         <h3> {this.state.description} </h3>
-                        <h5>{this.state.price} </h5>
+                        <h5>Price: {this.state.price} </h5>
                         
 
 
