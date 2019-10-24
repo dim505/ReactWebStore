@@ -15,6 +15,8 @@ namespace WebStore.models
 
         public string ImgPath { get; set; }
 
+        public string ImgPathMin { get; set; }
+
 
     }
 }

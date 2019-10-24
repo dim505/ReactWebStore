@@ -46,7 +46,7 @@ namespace Webstore_back__end
                 app.UseHsts();
             }
 
-            app.UseCors(options => options.WithOrigins("https://reactwebstore.azurewebsites.net/").AllowAnyMethod());
+            app.UseCors(options => options.WithOrigins("https://reactwebstore.azurewebsites.net").AllowAnyMethod());
             app.UseHttpsRedirection();
             app.UseMvc();
         }

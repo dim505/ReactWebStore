@@ -38,7 +38,7 @@ namespace WebStore.Controllers
         public IQueryable Get(string id)
         {
 
-            var SqlQuery = "SELECT [ID],[Name],[LongDesc],[price],[ImgPath] FROM [webstore_db].[dbo].[products] where id = " + id;
+            var SqlQuery = "SELECT [ID],[Name],[LongDesc],[price],[ImgPath],[ImgPathMin] FROM [webstore_db].[dbo].[products] where id = " + id;
             return _context.product.FromSql(SqlQuery);
         }
 
