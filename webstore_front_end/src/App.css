@@ -1,0 +1,52 @@
+
+#root {
+background-color: white;
+	margin-bottom: 60px;
+	margin-top: 60px;
+
+}
+
+
+
+
+/*override Bootstrap css for nav buttons*/
+a:hover{
+	 color:red !important;
+	 transition: color 400ms linear !important;
+	 
+ }
+
+.nav-item:hover{ 
+	color:red !important;
+	transition: color 400ms linear !important;
+	cursor: pointer;
+	 }
+	 
+
+
+.fixed-bottom {
+	height: 25px;
+
+}
+
+figure {
+	width:100%;
+	height:100%;
+	
+}
+
+nav.fixed-bottom.navbar.navbar-expand-lg.navbar-light.bg-light p {
+	padding-top: 15px;
+
+}
+
+.center svg {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+}
+  
+  
