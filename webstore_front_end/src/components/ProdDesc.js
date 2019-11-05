@@ -2,25 +2,31 @@
 import Axios from 'axios'
 import { Row, Col} from "react-bootstrap";
 import Spin from 'react-reveal/Spin';
-
+import Image from 'react-bootstrap/Image'
+import ResponsiveEmbed from 'react-bootstrap/ResponsiveEmbed'
+import AddToCart from './AddToCart'
 
 
 export default class ProdDesc extends Component {
     constructor(props) {
 
         super(props);
-        this.state = [];
+        this.state = {
+            name : '0',
+            description : '0',
+            price : '0',
+            ImgLoc : '0',
+            ImgLocMin : '0' 
 
 
-
-
+        }          
 
     }
 
 
 
     async componentDidMount() {
-        let results = await Axios(`https://localhost:44328/api/productapi/${this.props.match.params.id}`)
+        let results = await Axios(`http://localhost:51129/api/productapi/${this.props.match.params.id}`)
         
         this.setState({
             name: results.data[0].name,
@@ -43,18 +49,22 @@ export default class ProdDesc extends Component {
 
 
         return   <Row>
-                        <Col>
+                        <Col sm={6}>
+                        <ResponsiveEmbed aspectRatio="4by3">
+
                                 <figure className="progressive">
 
-                                    <img data-progressive={this.state.ImgLoc} src={this.state.ImgLocMin} className="mr-3 progressive__img progressive--not-loaded" alt=""/>
+                                    <Image  data-progressive={this.state.ImgLoc} src={this.state.ImgLocMin} className="mr-3 progressive__img progressive--not-loaded" alt="" rounded />
                                 </figure>
+                        </ResponsiveEmbed>
                         </Col>
 
-                        <Col>
+                        <Col sm={6}>
                                 <Spin>    
                                     <h3> {this.state.name} </h3>
                                     <h5> {this.state.description} </h5>
                                     <h6>Price: {this.state.price} </h6>
+                                    <AddToCart  ProdId = {this.props.match.params.id} />
                                 </Spin>
                         </Col>
                

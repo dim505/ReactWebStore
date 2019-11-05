@@ -3,7 +3,10 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.models;
 using Microsoft.EntityFrameworkCore;
+
+
 namespace WebStore.Controllers
+
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -22,8 +25,8 @@ namespace WebStore.Controllers
 
 
 
-        
 
+        
         // GET: api/Productapi
         [HttpGet]
         public IQueryable Get()

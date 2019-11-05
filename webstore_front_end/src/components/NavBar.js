@@ -5,7 +5,7 @@ import { LinkContainer } from "react-router-bootstrap";
 
 export default class NaviBar extends Component { 
   render() {
-   return <Navbar className="fixed-top" bg="light" expand="lg">
+   return <Navbar bg="light" expand="lg">
             <LinkContainer to="/">
                  <Navbar.Brand>WebStore </Navbar.Brand>
             </LinkContainer>

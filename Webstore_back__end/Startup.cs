@@ -46,7 +46,13 @@ namespace Webstore_back__end
                 app.UseHsts();
             }
 
-            app.UseCors(options => options.WithOrigins("http://localhost:3000").AllowAnyMethod());
+            app.UseCors(builder =>
+                  builder.WithOrigins(
+                    "https://reactwebstore.azurewebsites.net",
+                    "http://localhost:3000",
+                    "http://localhost")
+                  .AllowAnyHeader());
+
             app.UseHttpsRedirection();
             app.UseMvc();
         }

@@ -1,12 +1,14 @@
 
 #root {
 background-color: white;
-	margin-bottom: 60px;
-	margin-top: 60px;
 
 }
 
-
+.row {
+	margin-bottom: 50px;
+	
+	
+}
 
 
 /*override Bootstrap css for nav buttons*/
@@ -24,9 +26,20 @@ a:hover{
 	 
 
 
-.fixed-bottom {
-	height: 25px;
+.footer {
+	word-break: break-word;
+   position:fixed;
+   bottom:0;
+   display: block;
+   width: 100%;
+   
+   
+}
 
+.footer p{
+	margin-bottom: 1px;
+	
+	
 }
 
 figure {
