@@ -15,6 +15,10 @@ export default class NaviBar extends Component {
             <LinkContainer to="/">
                  <NavItem>Home</NavItem>
             </LinkContainer>
+
+            <LinkContainer to="/cart">
+                 <NavItem>View Shopping Cart</NavItem>
+            </LinkContainer>
                 
 
               </Nav>

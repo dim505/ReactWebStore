@@ -26,7 +26,7 @@ export default class ProdDesc extends Component {
 
 
     async componentDidMount() {
-        let results = await Axios(`http://localhost:51129/api/productapi/${this.props.match.params.id}`)
+        let results = await Axios(`https://webstorebackend.azurewebsites.net/api/productapi/${this.props.match.params.id}`)
         
         this.setState({
             name: results.data[0].name,
@@ -43,10 +43,10 @@ export default class ProdDesc extends Component {
     render() {
 
         
-            window.progressively.init();
+            
         
 
-
+        window.progressively.init();
 
         return   <Row>
                         <Col sm={6}>
@@ -59,7 +59,8 @@ export default class ProdDesc extends Component {
                         </ResponsiveEmbed>
                         </Col>
 
-                        <Col sm={6}>
+                        <Col sm={6
+                        }>
                                 <Spin>    
                                     <h3> {this.state.name} </h3>
                                     <h5> {this.state.description} </h5>

@@ -1,0 +1,4 @@
+          this.setState({
+         
+          items: [{ID: response.data.id, name: response.data.id, prodQty: response.data.prodQty, price: response.data.price  }]
+        })

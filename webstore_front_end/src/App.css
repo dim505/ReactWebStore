@@ -63,3 +63,35 @@ nav.fixed-bottom.navbar.navbar-expand-lg.navbar-light.bg-light p {
 }
   
   
+
+#NumInputstyle {
+	width: 60px;
+	
+}
+
+.react-numeric-input {
+	margin-bottom: 6px;
+}
+
+
+.nav-item {
+	padding-right:10px;
+	
+	
+}
+
+
+#styles {
+  width: 60px;
+}
+
+.CenterCart {
+	position: absolute;
+	top: 70px;
+	left: 0;
+	width: 100%;
+	height: 90%;
+	z-index: 9999;
+	text-align: center;
+}
+	

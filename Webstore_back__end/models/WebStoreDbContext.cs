@@ -32,6 +32,8 @@ namespace WebStore.models
         public DbSet<ProdDescRawSQLQuery> product { get; set; }
         public DbSet<ShoppingCart> shoppingCarts { get; set; }
         public DbSet<CartLineItem> CartLineItems { get; set; }
+
+        public DbSet<ReturnCart> returncart { get; set; }
     }
 } 
 

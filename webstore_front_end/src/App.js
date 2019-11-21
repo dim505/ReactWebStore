@@ -10,8 +10,7 @@ import Loader from "react-loader-spinner";
 import Axios from 'axios';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Spinner from 'react-easy-spinner';
-
-
+import Cart from './components/Cart'
 
 export default class App extends React.Component {
   constructor(props) {
@@ -26,7 +25,7 @@ export default class App extends React.Component {
 
   async componentDidMount() {
     var that = this;
-    let results = await Axios('http://localhost:51129/api/productapi')
+    let results = await Axios('https://webstorebackend.azurewebsites.net/api/productapi')
                     .then(
 
                       setTimeout( () => { 
@@ -36,9 +35,18 @@ export default class App extends React.Component {
                           showSpinner: false,
                           showBody: true})
                          }, 2000)
-
-                    )
-   
+                         ).catch( that => {
+                               Axios('https://webstorebackend.azurewebsites.net/api/productapi')
+                               .then(
+                                        setTimeout( () => { 
+                                          that.setState({ 
+                                            products: results.data,
+                                            showSpinner: false,
+                                            showBody: true})
+                                          }, 2000)
+                          )
+                        });
+      
        
     
 
@@ -56,7 +64,7 @@ render () {
     elColor: '#2d1557'
   }
 
-
+  
   if (window.navigator.userAgent.indexOf("Edg") > 0 ) {
     return (
       <div>
@@ -71,7 +79,7 @@ render () {
               <NaviBar />
               <Route exact path='/' component={() => <ProdList products = {this.state.products} /> } />
               <Route path="/ProdDesc/:id" component={ProdDesc} />
-              
+              <Route path="/cart" component={Cart}/>
             </Fade>
             
     
@@ -98,6 +106,7 @@ render () {
               <NaviBar />
               <Route exact path='/' component={() => <ProdList products = {this.state.products} /> } />
               <Route path="/ProdDesc/:id" component={ProdDesc} />
+              <Route path="/cart" component={Cart}/>
               
             </Fade>
             
