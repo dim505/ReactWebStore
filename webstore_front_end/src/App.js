@@ -25,7 +25,7 @@ export default class App extends React.Component {
 
   async componentDidMount() {
     var that = this;
-    let results = await Axios('https://webstorebackend.azurewebsites.net/api/productapi')
+    let results = await Axios('http://localhost:51129/api/productapi')
                     .then(
 
                       setTimeout( () => { 
@@ -36,7 +36,7 @@ export default class App extends React.Component {
                           showBody: true})
                          }, 2000)
                          ).catch( that => {
-                               Axios('https://webstorebackend.azurewebsites.net/api/productapi')
+                               Axios('http://localhost:51129/api/productapi')
                                .then(
                                         setTimeout( () => { 
                                           that.setState({ 
