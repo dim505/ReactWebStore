@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import RemoveItem from './RemoveItem'
 import Axios from 'axios'
-
+import { Link } from 'react-router-dom';
+import CheckOut from './CheckOut'
+import {Button} from 'react-bootstrap'
 export default class Cart extends Component {
     constructor(props) {
       super(props);
@@ -22,7 +24,7 @@ export default class Cart extends Component {
 
           if (localStorage.SessionId !== undefined ) {
 
-            const URL = `http://localhost:51129/api/cart/${localStorage.SessionId}`
+            const URL = `https://webstorebackend.azurewebsites.net/api/cart/${localStorage.SessionId}`
             console.log(URL)
             var response = await Axios.get(URL)
             .then( (response) => {
@@ -62,7 +64,7 @@ export default class Cart extends Component {
          // console.log(props.id)
          
          await this.getCart()
-          alert("test from cart ks");
+          alert("Item Removed");
         };
 
 
@@ -88,6 +90,8 @@ render() {
 
           } else {
             return (
+              <div> 
+                 <Button variant="outline-success"><Link to='/CheckOut'> Check Out </Link>  </Button>    
               <table className="table table-striped table-bordered">
                 <thead>
                   <tr>
@@ -107,6 +111,7 @@ render() {
                 ))}
                 </tbody>
               </table>
+              </div>
             );
 
 

@@ -51,7 +51,9 @@ namespace Webstore_back__end
                     "https://reactwebstore.azurewebsites.net",
                     "http://localhost:3000",
                     "http://localhost")
-                  .AllowAnyHeader());
+                  .AllowAnyHeader()
+                  .AllowAnyMethod()
+                  ); ;
 
             app.UseHttpsRedirection();
             app.UseMvc();

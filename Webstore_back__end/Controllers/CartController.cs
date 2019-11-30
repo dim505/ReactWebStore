@@ -138,12 +138,25 @@ namespace WebStore.Controllers
             {
                 var SqlQuery = "Select products.[ID],products.[Name],LineItm.[ProdQty], products.[Price] from [WebStore_db].[dbo].[CartLineItem] as LineItm left join [WebStore_db].[dbo].[products] as products on LineItm.[ProdID] = products.[ID] where [SessionID] = '" + sessionId + "'"; 
                 return _context.returncart.FromSql(SqlQuery).ToList(); }
-} 
+}
 
 
 
 
+        [HttpDelete("{sessionId}/lines/{productId}")]
 
+
+        public IActionResult RemoveItem(string sessionID, int productId) 
+        
+        {
+
+
+            var SqlQuery = "delete from [webstore_db].[dbo].[CartLineItem]  where sessionID = '" + sessionID + "' and  ProdID= " + productId;
+            return Ok(_context.Database.ExecuteSqlCommand(SqlQuery));
+
+
+         
+        }
 
 
         }

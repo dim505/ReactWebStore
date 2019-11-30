@@ -8,7 +8,7 @@ export default function RemoveItem (props) {
     
     async function submit() {
 
-        await Axios.delete(`http://localhost:51129/api/cart/${localStorage.SessionId}/lines/${props.id}`);
+        await Axios.delete(`https://webstorebackend.azurewebsites.net/api/cart/${localStorage.SessionId}/lines/${props.id}`);
         props.onItemRemoved();
 
     };

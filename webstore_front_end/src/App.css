@@ -93,4 +93,9 @@ nav.fixed-bottom.navbar.navbar-expand-lg.navbar-light.bg-light p {
 	z-index: 9999;
 	text-align: center;
 }
+
+
+.btn-outline-success {
+	float: right;
 	
+} 

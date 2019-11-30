@@ -20,6 +20,9 @@ export default class NaviBar extends Component {
                  <NavItem>View Shopping Cart</NavItem>
             </LinkContainer>
                 
+            <LinkContainer to="/CheckOut">
+                 <NavItem>Check Out</NavItem>
+            </LinkContainer>
 
               </Nav>
               <Form inline>
