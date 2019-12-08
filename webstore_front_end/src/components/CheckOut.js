@@ -1,6 +1,6 @@
 import React from 'react';
 import {Row, Col} from 'react-bootstrap'
-import {OrderSummary} from '../OrderSummary'
+import {OrderSummary} from './OrderSummary'
 import CheckOutSummary from './CheckOutSummary'
 
 export default class CheckOut extends React.Component{

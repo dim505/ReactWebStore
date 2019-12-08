@@ -2,10 +2,10 @@ import React from 'react';
 import {Form, Col, InputGroup, Row} from 'react-bootstrap' 
  
 
-export default class Address  extends React.Component {
+export default class DelivAddress  extends React.Component {
     state = {StreetAddress: "", city: "", State: "",ZipCode: "",  country: "" };
 
-    handleChange (newState) {
+    handleChange(newState) {
         this.setState(newState, () => this.props.onChanged(this.state));
 
 
@@ -27,9 +27,9 @@ export default class Address  extends React.Component {
                                     </Col>
                             </Form.Group>
 
-                            <Form.Group as={Row}>
+                            <Form.Group as={Row} >
                                     <Form.Label column sm="2">
-                                    city
+                                    City
                                     </Form.Label>
                                     <Col sm="10">
                                     <Form.Control 
@@ -41,7 +41,7 @@ export default class Address  extends React.Component {
                             </Form.Group>
 
 
-                            <Form.Group as={Row}>
+                            <Form.Group as={Row} >
                                     <Form.Label column sm="2">
                                     State
                                     </Form.Label>
@@ -55,7 +55,7 @@ export default class Address  extends React.Component {
                             </Form.Group>
 
 
-                            <Form.Group as={Row}>
+                            <Form.Group as={Row} >
                                     <Form.Label column sm="2">
                                     Zip Code
                                     </Form.Label>
@@ -68,7 +68,7 @@ export default class Address  extends React.Component {
                                     </Col>
                             </Form.Group>
 
-                            <Form.Group as={Row}>
+                            <Form.Group as={Row} >
                                     <Form.Label column sm="2">
                                     Country
                                     </Form.Label>

@@ -7,7 +7,8 @@ using Webstore_back__end.models;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-//stoped trying to figure out why it crashes when ever you press add to the car button
+using Microsoft.Extensions.Configuration;
+
 namespace WebStore.Controllers
 {
     [Route("api/[controller]")]
@@ -17,10 +18,11 @@ namespace WebStore.Controllers
 
 
         private readonly WebStoreDbContext _context;
-
+        
         public CartController(WebStoreDbContext context)
         {
             _context = context;
+             
         }
 
 

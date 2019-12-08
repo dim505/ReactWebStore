@@ -19,7 +19,10 @@ export default class App extends React.Component {
     this.state = {
       showSpinner: true, 
       showBody: false, 
-      products: []};
+      products: [],
+      IntialProducts: []
+    
+    };
   }
   
   
@@ -32,27 +35,32 @@ export default class App extends React.Component {
                       setTimeout( () => { 
                         
                         that.setState({ 
+                          IntialProducts: results.data,
                           products: results.data,
                           showSpinner: false,
                           showBody: true})
                          }, 2000)
-                         ).catch( that => {
-                               Axios('https://webstorebackend.azurewebsites.net/api/productapi')
-                               .then(
-                                        setTimeout( () => { 
-                                          that.setState({ 
-                                            products: results.data,
-                                            showSpinner: false,
-                                            showBody: true})
-                                          }, 2000)
-                          )
-                        });
+                         );
       
        
     
 
 }
 
+
+filterList = (SearchTextBoxVal) => {
+      let products = this.state.IntialProducts
+      products = products.filter ( 
+          (product) => { return product.name.toLowerCase().search(SearchTextBoxVal.toString().toLowerCase()) !== -1}
+        
+
+      )
+      this.setState({products:products})
+       
+
+
+
+}
 render () { 
 
   let settings = {
@@ -77,7 +85,7 @@ render () {
             </div>
     
             <Fade when={this.state.showBody}>
-              <NaviBar />
+              <NaviBar filterList={this.filterList}/>
               <Route exact path='/' component={() => <ProdList products = {this.state.products} /> } />
               <Route path="/ProdDesc/:id" component={ProdDesc} />
               <Route path="/cart" component={Cart}/>
@@ -105,7 +113,7 @@ render () {
             </div>
     
             <Fade when={this.state.showBody}>
-              <NaviBar />
+              <NaviBar filterList={this.filterList}/>
               <Route exact path='/' component={() => <ProdList products = {this.state.products} /> } />
               <Route path="/ProdDesc/:id" component={ProdDesc} />
               <Route path="/cart" component={Cart}/>

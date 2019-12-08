@@ -34,6 +34,8 @@ namespace WebStore.models
         public DbSet<CartLineItem> CartLineItems { get; set; }
 
         public DbSet<ReturnCart> returncart { get; set; }
+
+        public DbSet<CheckOutItemsList> checkoutitemlist { get; set; }
     }
 } 
 

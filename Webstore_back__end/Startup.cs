@@ -12,6 +12,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using WebStore.models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Azure.Services.AppAuthentication;
+using Microsoft.Azure.KeyVault;
+
 
 namespace Webstore_back__end
 {

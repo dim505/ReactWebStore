@@ -99,3 +99,16 @@ nav.fixed-bottom.navbar.navbar-expand-lg.navbar-light.bg-light p {
 	float: right;
 	
 } 
+
+
+.StripeElement  {
+	border: solid 1px;
+    padding: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 10px;
+	
+	
+	
+}
+

@@ -4,7 +4,7 @@ import {Form, Col, InputGroup, Row} from 'react-bootstrap'
 
 export default class CustomerDetails extends React.Component {
 
-        state = {firstName: 'testtestytest', lastName: '', email: ''}
+        state = {firstName: '', lastName: '', email: ''}
 
         handleChange(newState) {
                 this.setState(newState, () => {
@@ -21,7 +21,7 @@ export default class CustomerDetails extends React.Component {
         render() {
                 return (
                     <Form>
-                                <Form.Group as={Row} controlId="formPlaintextFirstName">
+                                <Form.Group as={Row}>
                                     <Form.Label column sm="2">
                                     First Name
                                     </Form.Label>
@@ -34,7 +34,7 @@ export default class CustomerDetails extends React.Component {
                                     </Col>
                                 </Form.Group>
 
-                                <Form.Group as={Row} controlId="formPlaintextLastName">
+                                <Form.Group as={Row}>
                                     <Form.Label column sm="2">
                                     Last Name
                                     </Form.Label>
@@ -48,7 +48,7 @@ export default class CustomerDetails extends React.Component {
                                 </Form.Group>
 
 
-                                <Form.Group as={Row} controlId="formPlaintextEmail">
+                                <Form.Group as={Row}>
                                     <Form.Label column sm="2">
                                     Email
                                     </Form.Label>

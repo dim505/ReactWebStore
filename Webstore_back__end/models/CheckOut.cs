@@ -9,36 +9,60 @@ namespace Webstore_back__end.models
     {
         public String SessionId { get; set; }
 
-        public Address BillingAddress { get; set;  }
-        public Address DeliveryAddress { get; set; }
-        public string PaymentToken { get; set; }
- 
+        public BillingAddress billingAddress { get; set;  }
+        public DeliveryAddress deliveryAddress { get; set; }
+        public string paymentToken { get; set; }
+
+        public Customer customer { get; set; }
 
 
 
 
 
 
-        public class Address
-             { 
-                    public string Street { get; set; }
-                    public string City { get; set; }
+
+        public class BillingAddress
+        { 
+                    public string StreetAddress { get; set; }
+                    public string city { get; set; }
+
+                    public string State { get; set; }
+                   
+                    public string ZipCode { get; set; }
+
                     public string Country { get; set; }
-                    
-                    public string zipcode { get; set; }
-        
-             }
 
-        public class CustDetails {
+        }
 
-            public string FirstName { get; set; }
-            public string LastName { get; set; }
-            public string Email { get; set; }
+        public class DeliveryAddress
+        {
+            public string StreetAddress { get; set; }
+            public string city { get; set; }
+
+            public string State { get; set; }
+
+            public string ZipCode { get; set; }
+
+            public string Country { get; set; }
+
+        }
+
+
+
+        public class Customer
+        {
+
+            public string firstName { get; set; }
+            public string lastName { get; set; }
+            public string email { get; set; }
 
 
 
 
         }
+
+
+
 
 
 

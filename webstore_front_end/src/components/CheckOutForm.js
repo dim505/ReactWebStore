@@ -11,8 +11,9 @@ class CheckoutForm extends React.Component {
         //object destruct javasscript
         let {token} = await this.props.stripe.createToken({ name: 'Name' });
         console.log(token)
+        this.props.onPaymentMethodChange(token);
           
-        if (token !== undefined ) {      
+        if (token) {      
             var Mydata = {};
             var CheckOutdata = this.props.state
             Mydata.CheckOutdata = CheckOutdata      
@@ -23,13 +24,9 @@ class CheckoutForm extends React.Component {
             
 
 
-        } else {alert("Please Select a Quantity for the Product")} 
+        }  
         
-         if (this.props.onPaymentMethodChanged) {
 
-            this.props.onPaymentMethodChanged(token);
-
-         }
           
     }
 

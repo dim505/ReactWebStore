@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Navbar, Nav, FormControl, Form, Button, NavItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
-
+import SearchBar from './SearchBar'
 
 export default class NaviBar extends Component { 
   render() {
@@ -25,10 +25,7 @@ export default class NaviBar extends Component {
             </LinkContainer>
 
               </Nav>
-              <Form inline>
-                <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                <Button variant="outline-success">Not Working Yet :C</Button>
-              </Form>
+              <SearchBar filterList={this.props.filterList}/>
             </Navbar.Collapse>
           </Navbar>
   }
