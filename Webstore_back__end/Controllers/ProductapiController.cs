@@ -27,20 +27,20 @@ namespace WebStore.Controllers
 
 
         
-        // GET: api/Productapi
+        // GET: api/Productapi, API endpoint to retrive all products for the home page
         [HttpGet]
         public IQueryable Get()
 
 
-        {
+        {	//gets all product information from the database 
             return _context.products.FromSql("SELECT [ID],[Name],[ShortDesc] FROM [webstore_db].[dbo].[products]");
 
         }
-        // GET: api/Productapi/5
+        // GET: api/Productapi/5, API end point for getting more detailed information about a product for the product detailed page
         [HttpGet("{id}", Name = "Get")]
         public IQueryable Get(string id)
         {
-
+			//gets information for a single product 
             var SqlQuery = "SELECT [ID],[Name],[LongDesc],[price],[ImgPath],[ImgPathMin] FROM [webstore_db].[dbo].[products] where id = " + id;
             return _context.product.FromSql(SqlQuery);
         }

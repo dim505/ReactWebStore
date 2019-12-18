@@ -1,7 +1,7 @@
 import React from 'react';
 import {Form, Col, InputGroup, Row} from 'react-bootstrap' 
 
-
+//this form contains the text fields for gathering the customer details 
 export default class CustomerDetails extends React.Component {
 
         state = {firstName: '', lastName: '', email: ''}
@@ -27,6 +27,11 @@ export default class CustomerDetails extends React.Component {
                                     </Form.Label>
                                     <Col sm="10">
                                     <Form.Control 
+                                    className={
+                                    this.props.flag && !Boolean(this.state.firstName)
+                                        ? "ShowRed"
+                                        : " "
+                                    }
                                     type="text" 
                                     value={this.state.firstName}
                                     onChange={event => this.handleChange({firstName: event.target.value})}
@@ -40,6 +45,11 @@ export default class CustomerDetails extends React.Component {
                                     </Form.Label>
                                     <Col sm="10">
                                     <Form.Control 
+                                    className={
+                                    this.props.flag && !Boolean(this.state.lastName)
+                                        ? "ShowRed"
+                                        : " "
+                                    }
                                     type="text" 
                                     value={this.state.lastName}
                                     onChange={event => this.handleChange({lastName: event.target.value})}
@@ -54,6 +64,11 @@ export default class CustomerDetails extends React.Component {
                                     </Form.Label>
                                     <Col sm="10">
                                     <Form.Control 
+                                    className={
+                                    this.props.flag && !Boolean(this.state.email)
+                                        ? "ShowRed"
+                                        : " "
+                                    }
                                     type="text" 
                                     value={this.state.email}
                                     onChange={event => this.handleChange({email: event.target.value})}

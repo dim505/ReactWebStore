@@ -26,9 +26,16 @@ export class OrderSummary extends React.Component {
   
                 this.setState({
                   items:  response.data
-            })               
+                    })               
   
                }
+               var Total = 0
+               this.state.items.map((item) => {Total = Total + (item.price * item.prodQty)  })
+                 
+               this.setState({
+                total:  Total
+                  })  
+
             }
 
             );
@@ -38,25 +45,20 @@ export class OrderSummary extends React.Component {
 
     }
 
-     getSum(total, num) {
-        return total.price + num.price
-
-    }
+ 
 
 
 
    
 
     render () {
-        const Total = this.state.items.reduce(this.getSum,0)
+
 
         if ( this.state.items[0].id === -1 || this.state.items.length === 0  ) {
             return (
               <div className="CenterCart">
                 <h1>
-                  <i className="em em-dizzy_face" aria-label="DIZZY FACE" />
-                  ....No items Found....
-                  <i className="em em-dizzy_face" aria-label="DIZZY FACE" />
+                    Zoinks!..... No items found. Please add some items to your cart before proceeding...
                 </h1>
 
               </div>
@@ -93,7 +95,8 @@ export class OrderSummary extends React.Component {
 
                     
                     {this.state.items.length} items <br />
-                    Sub Total: $ {Total} <br />
+         
+                    Sub Total: $ {this.state.total}  <br />
                 </div>
                 ) 
 

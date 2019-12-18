@@ -6,7 +6,7 @@ import Image from 'react-bootstrap/Image'
 import ResponsiveEmbed from 'react-bootstrap/ResponsiveEmbed'
 import AddToCart from './AddToCart'
 
-
+//this component display more information about the product 
 export default class ProdDesc extends Component {
     constructor(props) {
 
@@ -24,7 +24,7 @@ export default class ProdDesc extends Component {
     }
 
 
-
+	//makes the API call to get the complete information of the 
     async componentDidMount() {
         let results = await Axios(`https://webstorebackend.azurewebsites.net/api/productapi/${this.props.match.params.id}`)
         
@@ -45,7 +45,7 @@ export default class ProdDesc extends Component {
         
             
         
-
+		//intitates a libary for lazy loading 
         window.progressively.init();
 
         return   <Row>

@@ -3,6 +3,7 @@ import { Navbar, Nav, FormControl, Form, Button, NavItem } from "react-bootstrap
 import { LinkContainer } from "react-router-bootstrap";
 import SearchBar from './SearchBar'
 
+//this Component is the navigation bar. It defines how to get to each component 
 export default class NaviBar extends Component { 
   render() {
    return <Navbar bg="light" expand="lg">

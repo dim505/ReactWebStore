@@ -1,18 +1,27 @@
 import React, {Component} from 'react';
-import RemoveItem from './RemoveItem'
-import Axios from 'axios'
+import Axios from 'axios' 
 import { Link } from 'react-router-dom';
-import CheckOut from './CheckOut'
-import {Button} from 'react-bootstrap'
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+import Button from '@material-ui/core/Button';
+import RemoveButton from "./RemoveBtn";
 export default class Cart extends Component {
     constructor(props) {
       super(props);
+	  //binds the handleItemRemoved function so it can set state
       this.handleItemRemoved = this.handleItemRemoved.bind(this);
+	  //sets the initial state of the shopping cart 
         this.state = {
-          items: [{id: -1, name: 'Test Product', prodQty: 0, price: 0}]
+          items: [{id: -1, name: 'Test Product', prodQty: 0, price: 0}],
+
+          openSnBar: false
       }
   }
-
+  
 
     async   componentDidMount() {
 
@@ -21,24 +30,26 @@ export default class Cart extends Component {
       } ;
 
         async getCart() {
-
+			//if there is a session ID stored in the browser, it will make a API call to get the cart 
           if (localStorage.SessionId !== undefined ) {
-
+			//creates the URL to be called 
             const URL = `https://webstorebackend.azurewebsites.net/api/cart/${localStorage.SessionId}`
-            console.log(URL)
+             
+			//makes thr API call
             var response = await Axios.get(URL)
             .then( (response) => {
     
 
-              console.log(response)
-
+             
+				//additional checks for after a user adds an item and deletes its again. Prevent error after the first item delete
                if ( response.data.length === 0 ) {
-                        this.setState({
+                        //sets state to default 
+						this.setState({
                           items: [{id: -1, name: 'Test Product', prodQty: 0, price: 0}]
                     })
 
                }   else {
-
+				//prepulates the cart with items with the browers session id 
                 this.setState({
                   items:  response.data
             })
@@ -59,12 +70,21 @@ export default class Cart extends Component {
 
         }
 
-
+		//function used to refresh the cart after an item is deleted 
       async handleItemRemoved() {
          // console.log(props.id)
          
          await this.getCart()
-          alert("Item Removed");
+            this.setState({
+              openSnBar: true
+            })
+
+
+            setTimeout(() =>             
+            
+            this.setState({
+              openSnBar: false
+            }), 2000  )
         };
 
 
@@ -72,7 +92,7 @@ render() {
 
   
 
-  
+			//if the state id is equal to the initial state then it displays empty cart 
           if (this.state.items[0].id === -1 || this.state.items.length === 0 ) {
             return (
               <div className="CenterCart">
@@ -88,30 +108,41 @@ render() {
 
             
 
-          } else {
+          } 
+		  //else it returns the cart of items 
+		  else {
             return (
-              <div> 
-                 <Button variant="outline-success"><Link to='/CheckOut'> Check Out </Link>  </Button>    
-              <table className="table table-striped table-bordered">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                  </tr>
-                </thead>
-                <tbody>
-                {this.state.items.map(item => (
-                  <tr key={item.id}>
-                    <td>{item.name}</td>
-                    <td>{item.prodQty}</td>
-                    <td>{item.price}</td>
-                    <td> <RemoveItem id={item.id} onItemRemoved={this.handleItemRemoved} /> </td>
-                  </tr>
-                ))}
-                </tbody>
-              </table>
-              </div>
+
+              <Paper>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Name</TableCell>
+                    <TableCell> Quantity</TableCell>
+                    <TableCell>Price</TableCell>
+                    <TableCell> <Button variant="outlined" color="primary">  <Link to={"./CheckOut"}>  Check Out </Link> </Button></TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {this.state.items.map(item => (
+                    <TableRow key={item.id}>
+                      <TableCell>{item.name}</TableCell>
+                      <TableCell>{item.prodQty}</TableCell>
+                      <TableCell>{item.price}</TableCell>
+                      <TableCell>
+                        <RemoveButton  id={item.id}
+                         onItemRemoved={this.handleItemRemoved}
+                         openSnBar = {this.state.openSnBar}/>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+
+                 
+                </TableBody>
+              </Table>
+            </Paper>
+
+
             );
 
 

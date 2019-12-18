@@ -103,12 +103,21 @@ nav.fixed-bottom.navbar.navbar-expand-lg.navbar-light.bg-light p {
 
 .StripeElement  {
 	border: solid 1px;
-    padding: 5px;
+	padding: 5px;
     margin-top: 5px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     border-radius: 10px;
 	
 	
 	
+}
+
+
+.ShowRed{
+ 
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem red;
+
+
 }
 

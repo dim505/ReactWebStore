@@ -39,47 +39,56 @@ namespace Webstore_back__end.Controllers
         public IActionResult Checkout([FromBody]JObject data)
         {
 
-
-            
+	
+            //gets the customer data and maps it to the checkout object 
             CheckOut checkout = data["CheckOutdata"].ToObject<CheckOut>();
+			//builds out a SQL query for an entry into the order header table contain information about the order 
             var SqlQuery = "Insert into OrderHeader values ('" + checkout.customer.firstName + "','" + checkout.customer.lastName + "',' "+ checkout.customer.email +
              "','"  +  checkout.billingAddress.StreetAddress + "','" + checkout.billingAddress.city + "','" + checkout.billingAddress.State + "','"+ checkout.billingAddress.ZipCode
               + "','" + checkout.billingAddress.Country + "','"+ checkout.deliveryAddress.StreetAddress + "','" + checkout.deliveryAddress.city + "','"+ checkout.deliveryAddress.State
                + "','" + checkout.deliveryAddress.Country  + "','" + checkout.SessionId + "','" +  checkout.deliveryAddress.ZipCode + "')";
 
 
-            
+            //Finds all the items with the customers session ID 
             var SQLQuery3 = "SELECT [CheckOutItemsList].[ID],[CheckOutItemsList].[ProdID],[CheckOutItemsList].[ProdQty], [products].[price]" +
             " FROM[webstore_db].[dbo].[CartLineItem] as [CheckOutItemsList] " + 
               "left join[products] " +
              "on[CheckOutItemsList].[ProdID] = [products].[id]  where [SessionID] ='" + checkout.SessionId + "'";
-
+			//gets the results 
             var SelectResults = _context.checkoutitemlist.FromSql(SQLQuery3);
-
+			//declares item string that will contain the list of items 
             var ItemStr = "";
+			
             Decimal ItemTotal = 0;
+			//loops through results and builds out the lust
             foreach (var item in SelectResults) 
             {
                 ItemTotal = ItemTotal + (item.price * item.ProdQty);
+				//gets session Id, prod id, and prod qty later to be used to insert into order lines table 
                 ItemStr = ItemStr + "('"+ checkout.SessionId.ToString() + "','"  + item.ProdID.ToString() + "','" + item.ProdQty.ToString() + "'),";
 
 
             }
 
-
+			//removes comma from last item in string list 
             String ItemStr2 = ItemStr.Substring(0, (ItemStr.Length - 1));
+			 //builds query to insert into OrderLines table
             var SqlQuery2 = "Insert into OrderLines values" + ItemStr2;
+			//prepares queery used to delete items from the shopping cart header table 
             var SqlQuery4 = "delete from ShoppingCart where SessionID = '" + checkout.SessionId.ToString() + "'";
+			//prepares queery used to delete items from the shopping cart lines table 
             var SqlQuery5 = "delete from CartLineItem where SessionID = '" + checkout.SessionId.ToString() + "'";
-
+			
+			//exicutes the queries against the database
             _context.Database.ExecuteSqlCommand(SqlQuery);
             _context.Database.ExecuteSqlCommand(SqlQuery2);
 
             ChargeCustomer(checkout.paymentToken, ItemTotal, checkout.customer.email);
 
-
+			//exicutes the queries against the database
             _context.Database.ExecuteSqlCommand(SqlQuery4);
             _context.Database.ExecuteSqlCommand(SqlQuery5);
+			//returns a status code 200
             return Ok();
         
         }

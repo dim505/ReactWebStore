@@ -6,7 +6,7 @@ import Jump from 'react-reveal/Jump';
 
 
 
-
+//this component builds out the product list used to display the products on the main page 
 export default function ProdList (props) {
 
         return (      
