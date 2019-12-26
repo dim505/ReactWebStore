@@ -6,6 +6,8 @@ import Col from 'react-bootstrap/Col'
 export class OrderSummary extends React.Component {
 
     state = {items: [{id: -1, name: 'Test Product', prodQty: 0, price: 0}], itemCount:1, total: 2.99}; 
+   
+   
     async componentDidMount() {
         if (localStorage.SessionId !== undefined ) {
 
@@ -54,7 +56,7 @@ export class OrderSummary extends React.Component {
     render () {
 
 
-        if ( this.state.items[0].id === -1 || this.state.items.length === 0  ) {
+        if ( this.state.items[0].id === -1 || this.state.items.length === 0 ) {
             return (
               <div className="CenterCart">
                 <h1>

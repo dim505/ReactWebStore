@@ -1,5 +1,6 @@
 import React from 'react';
-import {Form, Col, InputGroup, Row} from 'react-bootstrap' 
+import {Form, Col,  Row} from 'react-bootstrap' 
+import RubberBand  from 'react-reveal/RubberBand'
  
 //this form contains the text fields for the Billing section of the shopping cart 
 export default class Address  extends React.Component {
@@ -16,6 +17,7 @@ export default class Address  extends React.Component {
     render () {
         return (
             <Form>
+                    <RubberBand  when={this.props.flag && !Boolean(this.state.StreetAddress)}> 
                         <Form.Group as={Row} >
                                     <Form.Label column sm="2">
                                     Street Address
@@ -33,7 +35,9 @@ export default class Address  extends React.Component {
                                     placeholder="Street Address" />
                                     </Col>
                             </Form.Group>
+                            </RubberBand >
 
+                            <RubberBand  when={this.props.flag && !Boolean(this.state.StreetAddress)}> 
                             <Form.Group as={Row}>
                                     <Form.Label column sm="2">
                                     city
@@ -51,8 +55,9 @@ export default class Address  extends React.Component {
                                     placeholder="City" />
                                     </Col>
                             </Form.Group>
+                            </RubberBand >
 
-
+                            <RubberBand  when={this.props.flag && !Boolean(this.state.StreetAddress)}> 
                             <Form.Group as={Row}>
                                     <Form.Label column sm="2">
                                     State
@@ -70,8 +75,9 @@ export default class Address  extends React.Component {
                                     placeholder="State" />
                                     </Col>
                             </Form.Group>
+                            </RubberBand >
 
-
+                            <RubberBand  when={this.props.flag && !Boolean(this.state.StreetAddress)}> 
                             <Form.Group as={Row}>
                                     <Form.Label column sm="2">
                                     Zip Code
@@ -89,7 +95,9 @@ export default class Address  extends React.Component {
                                     placeholder="Zip Code" />
                                     </Col>
                             </Form.Group>
+                            </RubberBand >
 
+                            <RubberBand  when={this.props.flag && !Boolean(this.state.StreetAddress)}> 
                             <Form.Group as={Row}>
                                     <Form.Label column sm="2">
                                     Country
@@ -107,7 +115,7 @@ export default class Address  extends React.Component {
                                     placeholder="Country" />
                                     </Col>
                             </Form.Group>
-
+                            </RubberBand >
                             
                 
  

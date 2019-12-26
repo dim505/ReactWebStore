@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Button} from "react-bootstrap"; 
 import Axios from 'axios';
 import NumericInput from 'react-numeric-input';
-
+import Snackbar from "@material-ui/core/Snackbar";
 
 //component responsible for adding the item and quantity to cart 
 export default class AddToCart extends React.Component {
@@ -12,7 +12,8 @@ export default class AddToCart extends React.Component {
         super(props);
         this.state = {
 			//flag used to display the notification when an item is added to the cart
-            itemJustAdded : false 
+            itemJustAdded : false,
+            ShowErrorMessage: false
         }          
 
     }
@@ -21,10 +22,37 @@ export default class AddToCart extends React.Component {
     //<NumericInput/>
 
 
+    handleClose() {
+       
+    
+        this.setState({
+            ShowErrorMessage: false
+        });
+
+
+      }
+
+
+
     render ()  {
 
         return (
             <div> 
+
+
+                    <Snackbar
+                              anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                              open={this.state.ShowErrorMessage}
+                              onClose={() => this.handleClose}
+                              ContentProps={{
+                                  "aria-describedby": "message-id"
+                              }}
+                              message={
+                                  <span id="message-id">Please Select a Quantity for the Product</span>
+                              }
+                              />
+
+
 				 
                 <NumericInput
                 id="NumInputstyle"
@@ -59,7 +87,22 @@ export default class AddToCart extends React.Component {
                         
 
 
-                    } else {alert("Please Select a Quantity for the Product")} 
+                    } else {
+
+
+                        this.setState({
+                            ShowErrorMessage: true
+                        });
+
+
+                        setTimeout(() => {
+                            this.setState({
+
+                                ShowErrorMessage: false
+
+                            })
+                        }, 3000);
+                    } 
 
                     
                     
@@ -68,7 +111,10 @@ export default class AddToCart extends React.Component {
                 
 
                 
-                }>      
+                }>   
+
+
+
                         { this.state.itemJustAdded ? <Button variant="secondary" type="submit" disabled>Add to Cart</Button> : <Button variant="outline-dark" type="submit">Add to Cart</Button> }  
                            
                     {this.state.itemJustAdded &&  <span className="alert alert-primary"> Item added to cart</span>}

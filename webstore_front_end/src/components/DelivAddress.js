@@ -1,5 +1,7 @@
 import React from 'react';
-import {Form, Col, InputGroup, Row} from 'react-bootstrap' 
+import {Form, Col, Row} from 'react-bootstrap' 
+import Grow from "@material-ui/core/Grow";
+import RubberBand  from 'react-reveal/RubberBand'
  
 //this form contains the text fields for the delivery  section of the shopping cart 
 export default class DelivAddress  extends React.Component {
@@ -13,7 +15,12 @@ export default class DelivAddress  extends React.Component {
 
     render () {
         return (
-            <Form>
+
+        <div>
+             {!this.props.ShowDeliv ? (    
+                     <Grow in={!this.props.ShowDeliv}> 
+                 <Form>
+                        <RubberBand  when={this.props.flag && !Boolean(this.state.StreetAddress)}> 
                         <Form.Group as={Row} >
                                     <Form.Label column sm="2">
                                     Street Address
@@ -31,7 +38,9 @@ export default class DelivAddress  extends React.Component {
                                     placeholder="Street Address" />
                                     </Col>
                             </Form.Group>
+                            </RubberBand >
 
+                            <RubberBand  when={this.props.flag && !Boolean(this.state.StreetAddress)}> 
                             <Form.Group as={Row} >
                                     <Form.Label column sm="2">
                                     City
@@ -49,8 +58,9 @@ export default class DelivAddress  extends React.Component {
                                     placeholder="City" />
                                     </Col>
                             </Form.Group>
+                            </RubberBand >
 
-
+                            <RubberBand  when={this.props.flag && !Boolean(this.state.StreetAddress)}> 
                             <Form.Group as={Row} >
                                     <Form.Label column sm="2">
                                     State
@@ -68,8 +78,9 @@ export default class DelivAddress  extends React.Component {
                                     placeholder="State" />
                                     </Col>
                             </Form.Group>
+                        </RubberBand >
 
-
+                            <RubberBand  when={this.props.flag && !Boolean(this.state.StreetAddress)}> 
                             <Form.Group as={Row} >
                                     <Form.Label column sm="2">
                                     Zip Code
@@ -87,7 +98,9 @@ export default class DelivAddress  extends React.Component {
                                     placeholder="Zip Code" />
                                     </Col>
                             </Form.Group>
+                            </RubberBand >
 
+                            <RubberBand  when={this.props.flag && !Boolean(this.state.StreetAddress)}> 
                             <Form.Group as={Row} >
                                     <Form.Label column sm="2">
                                     Country
@@ -105,7 +118,7 @@ export default class DelivAddress  extends React.Component {
                                     placeholder="Country" />
                                     </Col>
                             </Form.Group>
-
+                            </RubberBand >
                             
                 
  
@@ -114,14 +127,18 @@ export default class DelivAddress  extends React.Component {
 
 
             </Form>
+            </Grow>
+       
 
 
+        ) : (
+                
+                  <div> test</div>
+                
+              )}
 
-
+        </div>
         )
-
-
-
 
     }
 

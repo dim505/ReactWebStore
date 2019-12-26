@@ -1,5 +1,7 @@
 import React from 'react';
-import {Form, Col, InputGroup, Row} from 'react-bootstrap' 
+import {Form, Col,   Row} from 'react-bootstrap' 
+import RubberBand  from 'react-reveal/RubberBand'
+ 
 
 //this form contains the text fields for gathering the customer details 
 export default class CustomerDetails extends React.Component {
@@ -21,6 +23,7 @@ export default class CustomerDetails extends React.Component {
         render() {
                 return (
                     <Form>
+                            <RubberBand  when={this.props.flag && !Boolean(this.state.firstName)}> 
                                 <Form.Group as={Row}>
                                     <Form.Label column sm="2">
                                     First Name
@@ -38,7 +41,9 @@ export default class CustomerDetails extends React.Component {
                                     placeholder="First Name" />
                                     </Col>
                                 </Form.Group>
+                                </RubberBand >
 
+                                <RubberBand  when={this.props.flag && !Boolean(this.state.lastName)}> 
                                 <Form.Group as={Row}>
                                     <Form.Label column sm="2">
                                     Last Name
@@ -56,8 +61,9 @@ export default class CustomerDetails extends React.Component {
                                     placeholder="Last Name" />
                                     </Col>
                                 </Form.Group>
+                                </RubberBand >
 
-
+                                <RubberBand  when={this.props.flag && !Boolean(this.state.email)}> 
                                 <Form.Group as={Row}>
                                     <Form.Label column sm="2">
                                     Email
@@ -75,7 +81,7 @@ export default class CustomerDetails extends React.Component {
                                     placeholder="Email" />
                                     </Col>
                                 </Form.Group>
-
+                                </RubberBand >
 
                     </Form>
 

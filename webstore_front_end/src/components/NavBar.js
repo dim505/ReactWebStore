@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Navbar, Nav, FormControl, Form, Button, NavItem } from "react-bootstrap";
+import { Navbar, Nav, NavItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import SearchBar from './SearchBar'
 

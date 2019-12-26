@@ -9,6 +9,8 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Button from '@material-ui/core/Button';
 import RemoveButton from "./RemoveBtn";
+import LightSpeed from 'react-reveal/LightSpeed';
+
 export default class Cart extends Component {
     constructor(props) {
       super(props);
@@ -95,6 +97,7 @@ render() {
 			//if the state id is equal to the initial state then it displays empty cart 
           if (this.state.items[0].id === -1 || this.state.items.length === 0 ) {
             return (
+              <LightSpeed right>
               <div className="CenterCart">
                 <h1>
                   <i className="em em-dizzy_face" aria-label="DIZZY FACE" />
@@ -103,6 +106,7 @@ render() {
                 </h1>
 
               </div>
+              </LightSpeed>
             );
 
 
@@ -112,7 +116,7 @@ render() {
 		  //else it returns the cart of items 
 		  else {
             return (
-
+              <LightSpeed right>
               <Paper>
               <Table>
                 <TableHead>
@@ -141,7 +145,7 @@ render() {
                 </TableBody>
               </Table>
             </Paper>
-
+            </LightSpeed>
 
             );
 

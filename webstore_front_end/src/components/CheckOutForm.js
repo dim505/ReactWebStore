@@ -2,6 +2,10 @@ import React from 'react';
 import { CardElement, injectStripe } from "react-stripe-elements";
 import { Button } from "react-bootstrap";
 import Axios from 'axios';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Snackbar from "@material-ui/core/Snackbar";
+
+
  
 //this Component will contain the button that will submit the order to the backend 
 class CheckoutForm extends React.Component {
@@ -11,8 +15,12 @@ class CheckoutForm extends React.Component {
 
         super(props);
         this.state = {
-			//flag used to display the notification when an item is added to the cart
-            OrderJustAdded : false 
+            
+            OrderInProgress: props.OrderInProgress,
+            OrderJustAdded : false,
+            ShowErrorMessage: false
+            
+
         }          
 
     }
@@ -22,12 +30,17 @@ class CheckoutForm extends React.Component {
 
     submit = async (event) => {
 
+        
+        
+        
         //creates the new token
         let {token} = await this.props.stripe.createToken({ name: 'Name' });
         //updates the state with the new token
         this.props.onPaymentMethodChange(token);
          //if the token is not null, it will submit the order 
         if (token && this.props.state.flag === false) {      
+            
+            this.setState({OrderInProgress: true})
             
             if (this.state.deliverToBillingAddress === true) {
 
@@ -49,10 +62,7 @@ class CheckoutForm extends React.Component {
 			//makes the API call for the checkout 			
             let result = Axios.post("https://webstorebackend.azurewebsites.net/api/Checkout", Mydata)
             .then(  (response) =>  {
-                console.log(response)   
-                
-                
-                //sets flag to true to let user know that an item was added 
+              console.log(response)                  
                 this.setState({
                     deliverToBillingAddress: false,
                     customer: {},
@@ -62,27 +72,32 @@ class CheckoutForm extends React.Component {
                     SessionId: localStorage.SessionId, 
                     flag: false,
                     OrderJustAdded: true})
-
-                var Forms = document.getElementsByClassName("form-control")
-                           
+                this.props.OrderSec(this.state.OrderJustAdded)
+                var Forms = document.getElementsByClassName("form-control")             
                 for (var i=0; i < Forms.length; i++ ) {
-   
-
-                    if (Forms[i].type == 'text') {
+                    if (Forms[i].type === 'text') {
                         Forms[i].value = '';
                     }
-
-
                 }
+            })  
+            .catch ( () => {
                 
-                //after a certain amount of time, the display goes away 
-                setTimeout(() => this.setState({
-                    
-                    
+                this.setState({
+                    OrderInProgress: false,
+                    OrderJustAdded: false,
+                    ShowErrorMessage: true 
+                
+                })
 
-                    OrderJustAdded: false}), 6000   )
+             
 
+                setTimeout(() => {
+                    this.setState({
 
+                        ShowErrorMessage: false
+
+                    })
+                }, 6000);
 
             })
             
@@ -97,10 +112,28 @@ class CheckoutForm extends React.Component {
     render() {
         return (
             <div>
+                <Snackbar
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            open={this.state.ShowErrorMessage}
+            ContentProps={{
+                "aria-describedby": "message-id"
+            }}
+            message={
+                <span id="message-id">Opps!! Something went wrong!!! Please add items to your cart and try again</span>
+            }
+            />
+
                 <h4>Payment Details</h4>
                 <CardElement/>
-                <Button color='primary' onClick={this.submit}>Place Order</Button>
-                {this.state.OrderJustAdded &&  <span className="alert alert-primary"> Order Was Successfully Placed</span>}
+                
+                <Button className="CheckOutButton" color='primary' onClick={this.submit}>Place Order</Button>
+                
+                    {this.state.OrderInProgress ? (<CircularProgress />) : (<div> </div>)} 
+                        
+                     
+                            
+
+                
 
             </div>
         )

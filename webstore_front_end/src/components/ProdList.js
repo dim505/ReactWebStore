@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import { Link } from 'react-router-dom';
 import Jump from 'react-reveal/Jump';
-
+import LightSpeed from 'react-reveal/LightSpeed';
 
 
 
@@ -11,9 +11,13 @@ export default function ProdList (props) {
 
         return (      
         
-            <div >  
-                    
-                    <div className="row">
+
+
+
+       <div>
+            {props.products.length ? (
+            <div>
+		                    <div className="row">
                         {props.products.map(product =>
                     
                     <Jump>
@@ -35,7 +39,35 @@ export default function ProdList (props) {
                 )}
             
                         </div>
-                    </div> 
+
+
+
+
+
+            </div>
+          ) : (
+            <LightSpeed right>
+            <div className="CenterCart">
+              <h1>
+                <i className="em em-dizzy_face" aria-label="DIZZY FACE" />
+                ....Search Found No items....
+                <i className="em em-dizzy_face" aria-label="DIZZY FACE" />
+              </h1>
+
+            </div>
+            </LightSpeed>
+          )}
+
+        </div>
+
+
+
+                   
+
+
+
+
+
 
 
 

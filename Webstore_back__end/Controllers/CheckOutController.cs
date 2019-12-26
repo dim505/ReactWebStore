@@ -68,28 +68,44 @@ namespace Webstore_back__end.Controllers
                 ItemStr = ItemStr + "('"+ checkout.SessionId.ToString() + "','"  + item.ProdID.ToString() + "','" + item.ProdQty.ToString() + "'),";
 
 
+            }   
+
+
+
+            if (ItemStr.Equals(""))
+            {
+
+                return BadRequest();
+
+            }
+            else
+            {
+                //removes comma from last item in string list 
+                String ItemStr2 = ItemStr.Substring(0, (ItemStr.Length - 1));
+                //builds query to insert into OrderLines table
+                var SqlQuery2 = "Insert into OrderLines values" + ItemStr2;
+                //prepares queery used to delete items from the shopping cart header table 
+                var SqlQuery4 = "delete from ShoppingCart where SessionID = '" + checkout.SessionId.ToString() + "'";
+                //prepares queery used to delete items from the shopping cart lines table 
+                var SqlQuery5 = "delete from CartLineItem where SessionID = '" + checkout.SessionId.ToString() + "'";
+
+                //exicutes the queries against the database
+                _context.Database.ExecuteSqlCommand(SqlQuery);
+                _context.Database.ExecuteSqlCommand(SqlQuery2);
+
+                ChargeCustomer(checkout.paymentToken, ItemTotal, checkout.customer.email);
+
+                //exicutes the queries against the database
+                _context.Database.ExecuteSqlCommand(SqlQuery4);
+                _context.Database.ExecuteSqlCommand(SqlQuery5);
+                //returns a status code 200
+                return Ok();
+
             }
 
-			//removes comma from last item in string list 
-            String ItemStr2 = ItemStr.Substring(0, (ItemStr.Length - 1));
-			 //builds query to insert into OrderLines table
-            var SqlQuery2 = "Insert into OrderLines values" + ItemStr2;
-			//prepares queery used to delete items from the shopping cart header table 
-            var SqlQuery4 = "delete from ShoppingCart where SessionID = '" + checkout.SessionId.ToString() + "'";
-			//prepares queery used to delete items from the shopping cart lines table 
-            var SqlQuery5 = "delete from CartLineItem where SessionID = '" + checkout.SessionId.ToString() + "'";
-			
-			//exicutes the queries against the database
-            _context.Database.ExecuteSqlCommand(SqlQuery);
-            _context.Database.ExecuteSqlCommand(SqlQuery2);
 
-            ChargeCustomer(checkout.paymentToken, ItemTotal, checkout.customer.email);
 
-			//exicutes the queries against the database
-            _context.Database.ExecuteSqlCommand(SqlQuery4);
-            _context.Database.ExecuteSqlCommand(SqlQuery5);
-			//returns a status code 200
-            return Ok();
+
         
         }
 

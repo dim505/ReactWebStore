@@ -20,7 +20,8 @@ export default class App extends React.Component {
       showSpinner: true, 
       showBody: false, 
       products: [],
-      IntialProducts: []
+      IntialProducts: [],
+      ShowBrokenSite: false 
     
     };
   }
@@ -29,25 +30,89 @@ export default class App extends React.Component {
 
   async componentDidMount() {
     var that = this;
-    let results = await Axios({
+    let results = 0
+     results = await Axios({
       
       
-                  url:  'https://webstorebackend.azurewebsites.net/api/productapi',
-                  timeout: 10000
+                  url:  'https://webstorebackend.azurewebsites.net/api/productapi'
+               
                   
                   
                   })
                     .then(
 
                       setTimeout( () => { 
-                        
-                        that.setState({ 
-                          IntialProducts: results.data,
-                          products: results.data,
-                          showSpinner: false,
-                          showBody: true})
+                         if (results !== 0) {
+                          that.setState({ 
+                            IntialProducts: results.data,
+                            products: results.data,
+                            showSpinner: false,
+                            showBody: true})
+
+
+                         } else {
+
+                              
+
+                         }
+
                          }, 2000)
-                         );
+                         )
+                     .catch ( () => {
+
+
+                      results =  Axios({  
+                
+                                  url:  'https://webstorebackend.azurewebsites.net/api/productapi'
+                              
+                                  }) 
+                                  
+                                  .then(
+                                
+                                    setTimeout( () => { 
+                                      
+                                      if (results !== undefined) {
+                                        that.setState({ 
+                                          IntialProducts: results.data,
+                                          products: results.data,
+                                          showSpinner: false,
+                                          showBody: true})
+              
+              
+                                       } else {
+              
+                                            
+              
+                                       }
+
+
+                                       }, 2000)
+
+                                       
+                                       )
+                                       .catch (
+                                          this.setState ({
+                                              ShowBrokenSite: true
+
+
+                                          })
+
+
+                                       )
+
+
+
+
+
+                           }
+
+
+
+
+
+
+
+                     )
       
        
     
@@ -80,7 +145,14 @@ render () {
     elColor: '#2d1557'
   }
 
-  
+
+if (this.state.ShowBrokenSite === true ) {
+  return (<div> Cannot contact server, please try again later or refresh the page</div>)
+
+
+} else {
+
+
   if (window.navigator.userAgent.indexOf("Edg") > 0 ) {
     return (
       <div>
@@ -146,6 +218,13 @@ render () {
 
 
 }
+
+
+
+
+}
+  
+
 
   
 
