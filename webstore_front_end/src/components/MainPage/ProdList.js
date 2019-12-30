@@ -8,7 +8,7 @@ import LightSpeed from 'react-reveal/LightSpeed';
 
 //this component builds out the product list used to display the products on the main page 
 export default function ProdList (props) {
-
+//returns the items that fits the criteria else it returns no items found 
         return (      
         
 

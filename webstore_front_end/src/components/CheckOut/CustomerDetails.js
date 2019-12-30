@@ -7,7 +7,7 @@ import RubberBand  from 'react-reveal/RubberBand'
 export default class CustomerDetails extends React.Component {
 
         state = {firstName: '', lastName: '', email: ''}
-
+		//if state changes in CustomerDetails, it will trigger parent component to update state too. 
         handleChange(newState) {
                 this.setState(newState, () => {
                     if (this.props.onChanged)

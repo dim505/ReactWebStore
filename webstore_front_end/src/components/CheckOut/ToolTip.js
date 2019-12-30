@@ -2,6 +2,8 @@ import React from "react";
 import TooltipTrigger from "react-popper-tooltip";
 import "react-popper-tooltip/dist/styles.css";
 
+
+//this is code for the pop over when you hover your mouse over the credit card input form
 const Tooltip = ({ children, tooltip, hideArrow, ...props }) => (
   <TooltipTrigger
     {...props}

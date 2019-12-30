@@ -3,7 +3,7 @@ import CheckMark from "./CheckMark.png"
 import Fade from 'react-reveal/Fade';
 
 
-//this component display more information about the product 
+//this component tells the user that the order successfully went through 
 export default class OrderSeccessful extends Component {
 
 render () {

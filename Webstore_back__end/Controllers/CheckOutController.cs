@@ -71,7 +71,7 @@ namespace Webstore_back__end.Controllers
             }   
 
 
-
+			//if user submits request without first adding to shopping cart will result in a bad request 
             if (ItemStr.Equals(""))
             {
 
@@ -111,18 +111,22 @@ namespace Webstore_back__end.Controllers
 
         private void ChargeCustomer(string paymentToken, decimal itemTotal, string email)
         {
-
+			//defined api key  to identify one self to strip 
             StripeConfiguration.ApiKey = "sk_test_wGglOzyHYIB92w1Pv5LAUtTD00pF5tUIbg";
 
             var options = new ChargeCreateOptions()
             {
+				//specifies the amount to charge
                 Amount = Convert.ToInt64(itemTotal * 100),
-                Currency = "USD",
+                //specifies currency 
+				Currency = "USD",
+				//specifies customer credit card 
                 Source = paymentToken,
+				//also sents customers email to strip for additional identification 
                 Metadata = new Dictionary<string, string>() { {"CustomerEmail", email } }
 
             };
-                                                         
+            //charges the customer                                      
             var service = new ChargeService();
             Charge charge = service.Create(options);
         }

@@ -28,6 +28,7 @@ namespace WebStore.Controllers
 
 
         [HttpPost]
+				//this action method is used to insert products into a shopping cart, update quantities and make new shopping carts as necessary 
                 public string Post([FromBody]JObject data)
                 {
 
@@ -137,17 +138,24 @@ namespace WebStore.Controllers
 
         
         [HttpGet("{sessionId}")]
+		//this action method is used to get the cart list asscioated with a particular id 
         public List<Webstore_back__end.models.ReturnCart> GetProdListCart(string sessionId)
         {
+			
+			//if there is no session ID in the request it returns an error
             if (String.IsNullOrEmpty(sessionId)) {
                 List<Webstore_back__end.models.ReturnCart> Error = new List<Webstore_back__end.models.ReturnCart>();
                 Error.Add(new ReturnCart() { ID = 0, Name = "ERROR NO SESSION ID", ProdQty = 0, price = 0 });
                 return (Error);
             }
+			//else it returns the list of items 
             else
             {
+				//builds out the query 
                 var SqlQuery = "Select products.[ID],products.[Name],LineItm.[ProdQty], products.[Price] from [WebStore_db].[dbo].[CartLineItem] as LineItm left join [WebStore_db].[dbo].[products] as products on LineItm.[ProdID] = products.[ID] where [SessionID] = '" + sessionId + "'"; 
-                return _context.returncart.FromSql(SqlQuery).ToList(); }
+                
+				//returns the shoppping cart list 
+				return _context.returncart.FromSql(SqlQuery).ToList(); }
 }
 
 
@@ -155,14 +163,16 @@ namespace WebStore.Controllers
 
         [HttpDelete("{sessionId}/lines/{productId}")]
 
-
+		//this action method is used by the remove item button in the shopping cart. it removes the item from the cart 
         public IActionResult RemoveItem(string sessionID, int productId) 
         
         {
 
-
+			//builds out query 
             var SqlQuery = "delete from [webstore_db].[dbo].[CartLineItem]  where sessionID = '" + sessionID + "' and  ProdID= " + productId;
-            return Ok(_context.Database.ExecuteSqlCommand(SqlQuery));
+           
+			//exicutes the command 
+		   return Ok(_context.Database.ExecuteSqlCommand(SqlQuery));
 
 
          

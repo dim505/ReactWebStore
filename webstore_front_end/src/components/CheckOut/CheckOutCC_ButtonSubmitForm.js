@@ -8,8 +8,11 @@ import Snackbar from "@material-ui/core/Snackbar";
 
  
 //this Component will contain the button that will submit the order to the backend 
-class CheckoutForm extends React.Component {
+class CheckoutCCButtSubmitForm extends React.Component {
 
+//declares state  :
+// OrderInProgress - used to trigger circular spinner when the checkout is in progress after submitting checkout
+//ShowErrorMessage - used to 
 
     constructor(props) {
 
@@ -38,10 +41,14 @@ class CheckoutForm extends React.Component {
         //updates the state with the new token
         this.props.onPaymentMethodChange(token);
          //if the token is not null, it will submit the order 
-        if (token && this.props.state.flag === false) {      
+        if (token && this.props.state.CheckOutSubmitBtnCkcOnce === false) {      
             
+			//triggers  circular spinner to start spinning 
             this.setState({OrderInProgress: true})
             
+			
+			//checks if the billing address same as delivery address check box is sticked. If yes, the deliver address
+			//takes billing address values 
             if (this.state.deliverToBillingAddress === true) {
 
                     this.setState({
@@ -60,9 +67,9 @@ class CheckoutForm extends React.Component {
 			//prepopulates the object
             Mydata.CheckOutdata = CheckOutdata 
 			//makes the API call for the checkout 			
-            let result = Axios.post("https://webstorebackend.azurewebsites.net/api/Checkout", Mydata)
+            let result = Axios.post("http://localhost:51129/api/Checkout", Mydata)
             .then(  (response) =>  {
-              console.log(response)                  
+               //resets the state                  
                 this.setState({
                     deliverToBillingAddress: false,
                     customer: {},
@@ -70,10 +77,13 @@ class CheckoutForm extends React.Component {
                     deliveryAddress: {},
                     paymentToken: {},  
                     SessionId: localStorage.SessionId, 
-                    flag: false,
+                    CheckOutSubmitBtnCkcOnce: false,
                     OrderJustAdded: true})
-                this.props.OrderSec(this.state.OrderJustAdded)
-                var Forms = document.getElementsByClassName("form-control")             
+				//triggers the parent function to set state to show the Order was successful page
+			   this.props.OrderSec(this.state.OrderJustAdded)
+             
+				//clears out all the form values 
+			 var Forms = document.getElementsByClassName("form-control")             
                 for (var i=0; i < Forms.length; i++ ) {
                     if (Forms[i].type === 'text') {
                         Forms[i].value = '';
@@ -81,7 +91,7 @@ class CheckoutForm extends React.Component {
                 }
             })  
             .catch ( () => {
-                
+                //if there is an error in the API call, It resets state and triggers the error message to show
                 this.setState({
                     OrderInProgress: false,
                     OrderJustAdded: false,
@@ -90,7 +100,7 @@ class CheckoutForm extends React.Component {
                 })
 
              
-
+				//Error message disappears after 6 seconds 
                 setTimeout(() => {
                     this.setState({
 
@@ -141,4 +151,4 @@ class CheckoutForm extends React.Component {
 }
 
 //creates a stripe HOC 
-export default injectStripe(CheckoutForm);
+export default injectStripe(CheckoutCCButtSubmitForm);

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Row, Col} from 'react-bootstrap'
 import {OrderSummary} from './OrderSummary'
-import CheckOutSummary from './CheckOutSummary'
+import CheckOutCustBillDelivCCForm from './CheckOutCust_Bill_Deliv_CC_Form'
 import OrderSeccessful from "./OrderSeccessful"
 import Fade from 'react-reveal/Fade';
 
@@ -13,10 +13,12 @@ import Fade from 'react-reveal/Fade';
 							 
 				 
 //this contains the text fields to collect the customers personal and credit card information 
-//   <CheckOutSummary /> 
-export default class CheckOut extends React.Component{
+//   <CheckOutCust_Bill_Deliv_CC_Form /> 
+export default class CheckOutPage extends React.Component{
     state = {WasOrderSeccessful: false}
 
+	//WasOrderSeccessful function was triggered from child component CheckOutCustBillDelivCCForm and its state is set to show the 
+	// OrderSeccessful component
     WasOrderSeccessful = (newDetails)  => {
 
         this.setState({WasOrderSeccessful: newDetails})
@@ -28,7 +30,7 @@ export default class CheckOut extends React.Component{
 
     render () {
 
-
+		// checks if the order successfully went through, if no it will show the regular checkout page 
         if (this.state.WasOrderSeccessful === false) {
 
             return (
@@ -36,7 +38,7 @@ export default class CheckOut extends React.Component{
                 <Row> 
                      <Col md={8}>
  
-                         <CheckOutSummary 
+                         <CheckOutCustBillDelivCCForm 
                             WasOrderSeccessful = {this.WasOrderSeccessful}
                          
                          /> 

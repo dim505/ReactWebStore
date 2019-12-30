@@ -3,11 +3,11 @@ import {Form, Col,  Row} from 'react-bootstrap'
 import RubberBand  from 'react-reveal/RubberBand'
  
 //this form contains the text fields for the Billing section of the shopping cart 
-export default class Address  extends React.Component {
+export default class CustBillAddr  extends React.Component {
     state = {StreetAddress: "", city: "", State: "",ZipCode: "",  country: "" };
  
  
-	// as a user types into the text fields, it updates the state with each letter
+	// as a user types into the text fields, it updates the state with each letter and triggers the parent components to update state too
     handleChange (newState) {
         this.setState(newState, () => this.props.onChanged(this.state));
 

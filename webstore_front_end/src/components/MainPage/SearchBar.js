@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormControl, Form, Button} from "react-bootstrap";
 
-
+//this component contains the search bar used to search products on the nav bar 
 export default class SearchBar extends React.Component {
  
 

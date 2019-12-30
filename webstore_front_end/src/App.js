@@ -1,20 +1,29 @@
 import React from 'react';
 import './App.css';
 import { Route } from 'react-router-dom';
-import ProdList from './components/ProdList';
-import ProdDesc from './components/ProdDesc';
+import ProdList from './components/MainPage/ProdList';
+import ProdDesc from './components/ProdDesc/ProdDesc';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import NaviBar from './components/NavBar';
+import NaviBar from './components/MainPage/NavBar';
 import Fade from 'react-reveal/Fade';
 import Loader from "react-loader-spinner";
 import Axios from 'axios';
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Spinner from 'react-easy-spinner';
-import Cart from './components/Cart'
-import CheckOut from './components/CheckOut';
+import Cart from './components/ShoppingCart/Cart'
+import CheckOut from './components/CheckOut/CheckOutPage';
+import Callback from './components/Callback'
+import SecureCheckOut from './components/SecureCheckOut'
 
 export default class App extends React.Component {
-  constructor(props) {
+ 
+//declares state
+//      showSpinner: - determines whether to show preloader
+//      showBody: determines whether to show body of website 
+//     products: - get prepopulated with list of products filtered from search bar  
+//      IntialProducts: - get prepopulated with  initial list of products 
+//      ShowBrokenSite: false  - displays error if it cant make api call 
+ constructor(props) {
     super(props);
     this.state = {
       showSpinner: true, 
@@ -30,11 +39,13 @@ export default class App extends React.Component {
 
   async componentDidMount() {
     var that = this;
+	
     let results = 0
-     results = await Axios({
+	//makes api call	
+	results = await Axios({
       
       
-                  url:  'https://webstorebackend.azurewebsites.net/api/productapi'
+                  url:  'http://localhost:51129/api/productapi'
                
                   
                   
@@ -42,6 +53,7 @@ export default class App extends React.Component {
                     .then(
 
                       setTimeout( () => { 
+						// if call is seccessful, it will overwrite value of 0 and proceed to set state 
                          if (results !== 0) {
                           that.setState({ 
                             IntialProducts: results.data,
@@ -58,17 +70,18 @@ export default class App extends React.Component {
 
                          }, 2000)
                          )
+					 //if it fails it will try to make another API call
                      .catch ( () => {
 
 
                       results =  Axios({  
                 
-                                  url:  'https://webstorebackend.azurewebsites.net/api/productapi'
+                                  url:  'http://localhost:51129/api/productapi'
                               
                                   }) 
                                   
                                   .then(
-                                
+									// if it succeeds it will set state
                                     setTimeout( () => { 
                                       
                                       if (results !== undefined) {
@@ -91,6 +104,7 @@ export default class App extends React.Component {
                                        
                                        )
                                        .catch (
+									   // if it fails, it will set the ShowBrokenSite flag so a broken site message will appear 
                                           this.setState ({
                                               ShowBrokenSite: true
 
@@ -119,14 +133,17 @@ export default class App extends React.Component {
 
 }
 
-
+//function used to produce product filtered list 
 filterList = (SearchTextBoxVal) => {
+	  //makes a copy of the products list
       let products = this.state.IntialProducts
+	  //returns all products that match the search phrase 
       products = products.filter ( 
           (product) => { return product.name.toLowerCase().search(SearchTextBoxVal.toString().toLowerCase()) !== -1}
         
 
       )
+	  //sets state of products to be displayed 
       this.setState({products:products})
        
 
@@ -135,6 +152,7 @@ filterList = (SearchTextBoxVal) => {
 }
 render () { 
 
+	//defines settings for Edge Preloader, chrome preloader does not work with edge 
   let settings = {
     shape: "triangleUp",
     animation: "pulse",
@@ -145,88 +163,52 @@ render () {
     elColor: '#2d1557'
   }
 
-
+//if API call could not be made, it will show an error message 
 if (this.state.ShowBrokenSite === true ) {
   return (<div> Cannot contact server, please try again later or refresh the page</div>)
 
 
 } else {
-
-
-  if (window.navigator.userAgent.indexOf("Edg") > 0 ) {
+//checks if browser is Edge 
     return (
       <div>
-            
-            <div className="center">
-              <Fade when={this.state.showSpinner}>
-              <Spinner {...settings}/>
-              </Fade>
-            </div>
-    
+           { window.navigator.userAgent.indexOf("Edg") > 0 ?
+                          <div className="center">
+                          <Fade when={this.state.showSpinner}>
+                          <Spinner {...settings}/>
+                          </Fade>
+                        </div> : 
+                                  <div className="center">
+                                  <Fade when={this.state.showSpinner}>
+                                  <Loader type="Puff" color="#00BFFF" height={100} width={100} />
+                                  </Fade>
+                                </div>
+           }
             <Fade when={this.state.showBody}>
               <NaviBar filterList={this.filterList}/>
               <Route exact path='/' component={() => <ProdList products = {this.state.products} /> } />
               <Route path="/ProdDesc/:id" component={ProdDesc} />
               <Route path="/cart" component={Cart}/>
-              <Route path="/CheckOut" component={CheckOut}/>
+              <Route path="/callback" component={({...others}) => 
+                      <Callback 
+                      history={this.props.history}
+                      auth={this.props.auth} {...others}/> 
+              
+              }/>
+              <Route path="/CheckOut" component={({...others}) => 
+              <SecureCheckOut auth={this.props.auth}> 
+                      <CheckOut auth={this.props.auth} {...others}/> 
+              </SecureCheckOut>
+              }/>
             </Fade>
-            
-    
-    
-     
-       
       </div>
           );
-
-
-
-  } else {
-
-    return (
-      <div>
-            
-            <div className="center">
-              <Fade when={this.state.showSpinner}>
-              <Loader type="Puff" color="#00BFFF" height={100} width={100} />
-              </Fade>
-            </div>
-    
-            <Fade when={this.state.showBody}>
-              <NaviBar filterList={this.filterList}/>
-              <Route exact path='/' component={() => <ProdList products = {this.state.products} /> } />
-              <Route path="/ProdDesc/:id" component={ProdDesc} />
-              <Route path="/cart" component={Cart}/>
-              <Route path="/CheckOut" component={CheckOut}/>
-            </Fade>
-            
-    
-    
-     
-       
-      </div>
-          );
-
-
   }
-  
-  
-  
-
      }
 
-    
-
-
 }
 
 
-
-
-}
-  
-
-
-  
 
   
 

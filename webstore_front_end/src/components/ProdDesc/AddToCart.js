@@ -22,6 +22,7 @@ export default class AddToCart extends React.Component {
     //<NumericInput/>
 
 
+	//function used to close out the error pop up 
     handleClose() {
        
     
@@ -74,7 +75,7 @@ export default class AddToCart extends React.Component {
                         var PostRequest = {SessionId: SessionId, ProdID: this.props.ProdId, ProdQTY: document.getElementById('NumInputstyle').value }
 						//makes POST API request 	
                         Mydata.Postdata = PostRequest      
-                        let result = Axios.post("https://webstorebackend.azurewebsites.net/api/cart", Mydata)
+                        let result = Axios.post("http://localhost:51129/api/cart", Mydata)
                         .then(  (response) =>  {
                             console.log(response);
 							//overwrites session id with existing ID or writes a new one if one does not exist 
@@ -89,12 +90,12 @@ export default class AddToCart extends React.Component {
 
                     } else {
 
-
+						//triggers the error message to show 
                         this.setState({
                             ShowErrorMessage: true
                         });
 
-
+						//makes the error message disappear after 3 seconds 
                         setTimeout(() => {
                             this.setState({
 

@@ -1,21 +1,21 @@
 import React from 'react';
 import CustomerDetails from './CustomerDetails'
-import Address from './address'
+import CustBillAddr from './CustomerBillingAddress'
 import {Form} from 'react-bootstrap' 
 import {StripeProvider, Elements} from 'react-stripe-elements'
-import DelivAddress from './DelivAddress'
-import CheckOutForm from './CheckOutForm';
+import CustDelivAddr from './CustomerDeliveryAddress'
+import CheckOutCCButtonSubmitForm from './CheckOutCC_ButtonSubmitForm';
 import Snackbar from "@material-ui/core/Snackbar";
 import Tooltip from "./ToolTip";
 
 
 //this Component the text fields to collect the customers personal and credit card information
-export default class CheckOutSummary extends React.Component {
+export default class CheckOutCustBillDelivCCForm extends React.Component {
 	//declares the states for delivery, billing and customer information 
     state = {deliverToBillingAddress: false, 
         customer: {}, billingAddress: {}, 
         deliveryAddress: {},paymentToken: {}, 
-         SessionId: localStorage.SessionId, flag: false,
+         SessionId: localStorage.SessionId, CheckOutSubmitBtnCkcOnce: false,
          open: false,
          OrderSeccessful: false,
          OrderInProgress: false 
@@ -42,6 +42,7 @@ export default class CheckOutSummary extends React.Component {
             this.setState({deliverToBillingAddress: !this.state.deliverToBillingAddress})
     }
 
+	
      isEmpty(obj) {
         for(var key in obj) {
             if(obj.hasOwnProperty(key))
@@ -55,6 +56,8 @@ export default class CheckOutSummary extends React.Component {
 	//sets payment token state when the check out button is pressed 
     onPaymentMethodChange = (token) => {
 
+			//checks if the billing address same as delivery address check box is sticked. If yes, the deliver address
+			//takes billing address values 
             if ( this.state.deliverToBillingAddress === true) {
                         this.setState({
                                 deliveryAddress : this.state.billingAddress
@@ -62,7 +65,7 @@ export default class CheckOutSummary extends React.Component {
 
             }
 
-
+			//checks if all the fields have values before checkout can be completed 
             if (token && !this.isEmpty(this.state.customer.firstName) && 
             !this.isEmpty(this.state.customer.lastName) && 
             !this.isEmpty(this.state.customer.email) && 
@@ -81,9 +84,9 @@ export default class CheckOutSummary extends React.Component {
             
             ) {
                    
-                
+                //if all fields have a value, payment token state is updated 
                 this.setState ({
-                        flag: false,
+                        CheckOutSubmitBtnCkcOnce: false,
                         paymentToken: token.id,
                        
                     
@@ -94,38 +97,39 @@ export default class CheckOutSummary extends React.Component {
             } else {
 
                 this.setState({
-                    flag: true,
-                    open: true,
+                    CheckOutSubmitBtnCkcOnce: true,
+                    OpenErrorFillRedForms: true,
                     OrderInProgress: false
                 })
 
                
-                
-                setTimeout(() => this.setState({ open: false }), 6000);
+                //sets state to false to make the fill red forms error box disspear 
+                setTimeout(() => this.setState({ OpenErrorFillRedForms: false }), 6000);
             }
 
 
 
     }
 
-    
+    //function used to update parent component that will trigger the OrderSeccessful page to show 
     OrderSeccessful = (newDetails) => {
 
         this.props.WasOrderSeccessful(newDetails)
         
     }
 
-    
+    //function used to close the fill red forms error box
     handleClose() {
        
     
         this.setState({
-          open: false
+          OpenErrorFillRedForms: false
         });
 
 
       }
 
+	//tracks if order is in progress, and passes it to the appropriate component to display the spinner while the order is in progress
     OrderInProgress = (newDetail)  => {
             this.setState({OrderInProgress: newDetail})
 
@@ -140,7 +144,7 @@ export default class CheckOutSummary extends React.Component {
                 <div>
                               <Snackbar
                               anchorOrigin={{ vertical: "top", horizontal: "center" }}
-                              open={this.state.open}
+                              open={this.state.OpenErrorFillRedForms}
                               onClose={() => this.handleClose}
                               ContentProps={{
                                   "aria-describedby": "message-id"
@@ -151,19 +155,19 @@ export default class CheckOutSummary extends React.Component {
                               />
                           <h4>Your Details    </h4>
                           <CustomerDetails
-                          flag={this.state.flag}
+                          flag={this.state.CheckOutSubmitBtnCkcOnce}
                           onChanged={this.handleCustomerDetailsUpdated} />
                           <h4>Billing Address     </h4>
-                          <Address 
-                          flag={this.state.flag}
+                          <CustBillAddr 
+                          flag={this.state.CheckOutSubmitBtnCkcOnce}
                           onChanged={this.handleBillingddressDetailsUpdated}/>
                           <Form.Check inline label="Please click check box if delivery address is the same as billing address" type="checkbox" id="BillToDeliveryCheckBox"  onClick={() => this.toggleUseBillingAddress() }/>                    
                           {!this.state.deliverToBillingAddress &&
                                   <div>
                                       <h4> Delivery Address     </h4>
-                                      <DelivAddress 
+                                      <CustDelivAddr 
                                       ShowDeliv={this.state.deliverToBillingAddress}
-                                      flag={this.state.flag}
+                                      flag={this.state.CheckOutSubmitBtnCkcOnce}
                                       onChanged={this.handleDeliveryaddressDetailsUpdated}/>
                                   </div>
                             }
@@ -173,7 +177,7 @@ export default class CheckOutSummary extends React.Component {
                                   placement="top"
                                   tooltip="Would you like to simulate a real world checkout? Please enter following Test Credit Card information ''4242 4242 4242 4242 04/24 242 42424'' "
                               >
-                                  <CheckOutForm onPaymentMethodChange={this.onPaymentMethodChange}
+                                  <CheckOutCCButtonSubmitForm onPaymentMethodChange={this.onPaymentMethodChange}
                                                   state = {this.state}
                                                   OrderSec = {this.OrderSeccessful}
                                                   OrderInProgress = {this.state.OrderInProgress}

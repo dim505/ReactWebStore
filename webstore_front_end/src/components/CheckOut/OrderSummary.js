@@ -3,22 +3,30 @@ import Axios from 'axios';
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
-export class OrderSummary extends React.Component {
 
+//this component shows on the right when you check out. It has an order summary of your check out
+export class OrderSummary extends React.Component {
+	//setting intial state
     state = {items: [{id: -1, name: 'Test Product', prodQty: 0, price: 0}], itemCount:1, total: 2.99}; 
    
    
     async componentDidMount() {
-        if (localStorage.SessionId !== undefined ) {
-
-            const URL = `https://webstorebackend.azurewebsites.net/api/cart/${localStorage.SessionId}`
-            console.log(URL)
+       
+		//on component mount, it checks if there is a session ID, if there is one, it will make a call to get the 
+		//items for the particular cart 
+	   if (localStorage.SessionId !== undefined ) {
+			
+			
+			//builds URL string 
+            const URL = `http://localhost:51129/api/cart/${localStorage.SessionId}`
+             
+			 //makes API call 
             var response = await Axios.get(URL)
             .then( (response) => {
     
   
-              console.log(response)
-  
+               
+			//if API call returns nothing, the state is set back to what it was orignally 
                if ( response.data.length === 0 ) {
                         this.setState({
                           items: [{id: -1, name: 'Test Product', prodQty: 0, price: 0}]
@@ -26,14 +34,19 @@ export class OrderSummary extends React.Component {
   
                }   else {
   
+				//sets state with response 
                 this.setState({
                   items:  response.data
                     })               
   
                }
+			   //declares total variable 
                var Total = 0
+			   
+				//calculates the total for the order 
                this.state.items.map((item) => {Total = Total + (item.price * item.prodQty)  })
                  
+				//sets the total for the order in state 
                this.setState({
                 total:  Total
                   })  
@@ -55,7 +68,7 @@ export class OrderSummary extends React.Component {
 
     render () {
 
-
+		//checks if the API call returns any results. If no, shows the first message else returns the list of items 
         if ( this.state.items[0].id === -1 || this.state.items.length === 0 ) {
             return (
               <div className="CenterCart">
@@ -69,7 +82,10 @@ export class OrderSummary extends React.Component {
 
             
 
-          } else {
+          } 
+		  
+		  //else if returns the list of items from your cart 
+		  else {
             
             
             return (
