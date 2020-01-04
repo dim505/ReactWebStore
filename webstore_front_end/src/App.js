@@ -13,6 +13,7 @@ import Spinner from 'react-easy-spinner';
 import Cart from './components/ShoppingCart/Cart'
 import CheckOut from './components/CheckOut/CheckOutPage';
 import Callback from './components/Callback'
+import LogOutcallback from './components/LogOutcallback'
 import SecureCheckOut from './components/SecureCheckOut'
 
 export default class App extends React.Component {
@@ -30,22 +31,23 @@ export default class App extends React.Component {
       showBody: false, 
       products: [],
       IntialProducts: [],
-      ShowBrokenSite: false 
+      ShowBrokenSite: false,
+      authenticated: false
     
     };
   }
   
   
-
-  async componentDidMount() {
+ async GetAllProd () {
+    
     var that = this;
 	
     let results = 0
 	//makes api call	
-	results = await Axios({
+  	results = await Axios({
       
       
-                  url:  'http://localhost:51129/api/productapi'
+                  url:  'https://webstorebackend.azurewebsites.net/api/productapi'
                
                   
                   
@@ -55,7 +57,7 @@ export default class App extends React.Component {
                       setTimeout( () => { 
 						// if call is seccessful, it will overwrite value of 0 and proceed to set state 
                          if (results !== 0) {
-                          that.setState({ 
+                            that.setState({ 
                             IntialProducts: results.data,
                             products: results.data,
                             showSpinner: false,
@@ -76,7 +78,7 @@ export default class App extends React.Component {
 
                       results =  Axios({  
                 
-                                  url:  'http://localhost:51129/api/productapi'
+                                  url:  'https://webstorebackend.azurewebsites.net/api/productapi'
                               
                                   }) 
                                   
@@ -107,30 +109,23 @@ export default class App extends React.Component {
 									   // if it fails, it will set the ShowBrokenSite flag so a broken site message will appear 
                                           this.setState ({
                                               ShowBrokenSite: true
-
-
                                           })
-
-
                                        )
-
-
-
-
-
                            }
-
-
-
-
-
-
-
                      )
-      
-       
-    
 
+
+  }
+
+  async componentDidMount() {
+       this.GetAllProd();
+       this.isUserAuthenticated();
+}
+
+
+async isUserAuthenticated () {
+    const isLoggedIn = await this.props.auth.isAuthenticated();
+    await this.setState({ authenticated: isLoggedIn})
 }
 
 //function used to produce product filtered list 
@@ -185,7 +180,10 @@ if (this.state.ShowBrokenSite === true ) {
                                 </div>
            }
             <Fade when={this.state.showBody}>
-              <NaviBar filterList={this.filterList}/>
+              <NaviBar 
+              filterList={this.filterList}
+              authenticated = {this.state.authenticated}
+              auth={this.props.auth} />
               <Route exact path='/' component={() => <ProdList products = {this.state.products} /> } />
               <Route path="/ProdDesc/:id" component={ProdDesc} />
               <Route path="/cart" component={Cart}/>
@@ -195,6 +193,7 @@ if (this.state.ShowBrokenSite === true ) {
                       auth={this.props.auth} {...others}/> 
               
               }/>
+              <Route path="/LogOutcallback" component={LogOutcallback}/>
               <Route path="/CheckOut" component={({...others}) => 
               <SecureCheckOut auth={this.props.auth}> 
                       <CheckOut auth={this.props.auth} {...others}/> 

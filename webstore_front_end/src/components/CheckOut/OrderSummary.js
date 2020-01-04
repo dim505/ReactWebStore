@@ -1,7 +1,13 @@
 import React from "react"; 
 import Axios from 'axios';
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Paper from "@material-ui/core/Paper";
+import Typography from '@material-ui/core/Typography';
 
 
 //this component shows on the right when you check out. It has an order summary of your check out
@@ -18,7 +24,7 @@ export class OrderSummary extends React.Component {
 			
 			
 			//builds URL string 
-            const URL = `http://localhost:51129/api/cart/${localStorage.SessionId}`
+            const URL = `https://webstorebackend.azurewebsites.net/api/cart/${localStorage.SessionId}`
              
 			 //makes API call 
             var response = await Axios.get(URL)
@@ -89,33 +95,45 @@ export class OrderSummary extends React.Component {
             
             
             return (
-                <div> 
-                    <h3>Your Order Summary </h3>
-                    <Row> <Col> Product Name</Col> <Col> Quantity</Col> <Col> Price</Col> </Row>
-                        {this.state.items.map( (item) => 
-                        <Row>
 
-                              <Col>
-                              {item.name}
-                              </Col>       
-                              
-                              <Col>
-                              {item.prodQty} 
-                              </Col> 
+              <TableContainer component={Paper}>
+              <Table aria-label="spanning table">
+                <TableHead>
+                 <TableRow>          <Typography id="OrdSummTitle" variant="h4">  Order Summary  </Typography>
+</TableRow>
+                  <TableRow>
+                    <TableCell>Product Name </TableCell>
+                    <TableCell>Quantity </TableCell>
+                    <TableCell>Price </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {this.state.items.map(item => (
+                    <TableRow key={item.id}>
+                      <TableCell>{item.name}</TableCell>
+                      <TableCell align="right">{item.prodQty}</TableCell>
+                      <TableCell align="right">{item.price}</TableCell>
+                    </TableRow>
+                  ))}
+    
+                  <TableRow>
+                    <TableCell rowSpan={3} />
+                    <TableCell colSpan={2}>Total</TableCell>
+                    <TableCell align="right">{this.state.total}</TableCell>
+                  </TableRow>
+    
+                  <TableRow>
+                    <TableCell colSpan={2}> Total number of different types fruits and veggies </TableCell>
+                    <TableCell align="right">
+                      {this.state.items.length}
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
 
-                                <Col>
-                                {item.price}
-                                </Col> 
 
-                        </Row>
-                          
-                        ) }
 
-                    
-                    {this.state.items.length} items <br />
-         
-                    Sub Total: $ {this.state.total}  <br />
-                </div>
                 ) 
 
 

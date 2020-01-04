@@ -67,7 +67,7 @@ class CheckoutCCButtSubmitForm extends React.Component {
 			//prepopulates the object
             Mydata.CheckOutdata = CheckOutdata 
 			//makes the API call for the checkout 			
-            let result = Axios.post("http://localhost:51129/api/Checkout", Mydata)
+            let result = Axios.post("https://webstorebackend.azurewebsites.net/api/Checkout", Mydata)
             .then(  (response) =>  {
                //resets the state                  
                 this.setState({

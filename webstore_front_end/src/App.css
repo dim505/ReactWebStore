@@ -133,3 +133,15 @@ nav.fixed-bottom.navbar.navbar-expand-lg.navbar-light.bg-light p {
     padding-right: 12px;
     margin-right: 12px;
 }
+
+
+.MuiTableContainer-root {
+	margin-top: 10px;
+
+
+}
+
+.nav-item{
+
+	padding-top: 7px;
+}
