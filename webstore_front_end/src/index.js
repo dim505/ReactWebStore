@@ -10,7 +10,8 @@ const auth0 = async () => await createAuth0Client({
     domain : 'dev-5wttvoce.auth0.com',
     client_id: 'TnRQQdDDNDbNXtygmUDwaxYtAdueTpU1',
     //REDIRECT URl WHEN AUTHENTICATION SECEEEDS
-    redirect_uri: 'https://reactwebstore.azurewebsites.net/callback'
+    redirect_uri: 'http://localhost:3000/callback',
+    audience: 'https://ReactJSWebstoreAPI.com'
     
 
 });

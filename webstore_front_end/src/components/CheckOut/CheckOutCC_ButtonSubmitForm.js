@@ -66,8 +66,13 @@ class CheckoutCCButtSubmitForm extends React.Component {
             var CheckOutdata = this.props.state
 			//prepopulates the object
             Mydata.CheckOutdata = CheckOutdata 
+            const BearerToken = this.props.auth.getTokenSilently();
 			//makes the API call for the checkout 			
-            let result = Axios.post("https://webstorebackend.azurewebsites.net/api/Checkout", Mydata)
+            let result = Axios.post("http://localhost:51129/api/Checkout", Mydata, 
+            {
+                    headers: {Authorization: `bearer ${BearerToken}`}
+
+            })
             .then(  (response) =>  {
                //resets the state                  
                 this.setState({

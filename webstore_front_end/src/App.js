@@ -47,7 +47,7 @@ export default class App extends React.Component {
   	results = await Axios({
       
       
-                  url:  'https://webstorebackend.azurewebsites.net/api/productapi'
+                  url:  'http://localhost:51129/api/productapi'
                
                   
                   
@@ -78,7 +78,7 @@ export default class App extends React.Component {
 
                       results =  Axios({  
                 
-                                  url:  'https://webstorebackend.azurewebsites.net/api/productapi'
+                                  url:  'http://localhost:51129/api/productapi'
                               
                                   }) 
                                   

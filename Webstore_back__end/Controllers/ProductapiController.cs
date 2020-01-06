@@ -3,11 +3,12 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using WebStore.models;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebStore.Controllers
 
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class ProductapiController : ControllerBase

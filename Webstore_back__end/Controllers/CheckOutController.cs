@@ -11,12 +11,13 @@ using Stripe;
 using Microsoft.Azure.Services.AppAuthentication;
 using Microsoft.Azure.KeyVault;
 using Microsoft.Extensions.Configuration;
- 
-
-
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Webstore_back__end.Controllers
 {
+
+    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
     public class CheckoutController : ControllerBase
@@ -39,7 +40,7 @@ namespace Webstore_back__end.Controllers
         public IActionResult Checkout([FromBody]JObject data)
         {
 
-	
+           // var UserIdentifier = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             //gets the customer data and maps it to the checkout object 
             CheckOut checkout = data["CheckOutdata"].ToObject<CheckOut>();
 			//builds out a SQL query for an entry into the order header table contain information about the order 

@@ -40,6 +40,7 @@ export default class CheckOutPage extends React.Component{
  
                          <CheckOutCustBillDelivCCForm 
                             WasOrderSeccessful = {this.WasOrderSeccessful}
+                            auth = {this.props.auth}
                          
                          /> 
                      </Col>

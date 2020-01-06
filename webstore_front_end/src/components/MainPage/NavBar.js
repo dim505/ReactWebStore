@@ -12,7 +12,7 @@ export default class NaviBar extends Component {
 
       logout = () => {
           this.props.auth.logout({
-               returnTo: 'https://reactwebstore.azurewebsites.net/LogOutcallback'
+               returnTo: 'http://localhost:3000/LogOutcallback'
              });
       }
 
