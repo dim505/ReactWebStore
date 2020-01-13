@@ -145,3 +145,13 @@ nav.fixed-bottom.navbar.navbar-expand-lg.navbar-light.bg-light p {
 
 	padding-top: 7px;
 }
+
+
+p {
+	display: block;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+  }
+

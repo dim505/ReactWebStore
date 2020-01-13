@@ -1,6 +1,5 @@
 import React from 'react';
 import Button from 'react-bootstrap/Button';
-import { Link } from 'react-router-dom';
 import Flip from 'react-reveal/Flip';
 
 export default class  SecureCheckOut extends React.Component {

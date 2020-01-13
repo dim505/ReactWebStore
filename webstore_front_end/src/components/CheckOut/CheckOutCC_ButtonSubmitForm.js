@@ -18,11 +18,9 @@ class CheckoutCCButtSubmitForm extends React.Component {
 
         super(props);
         this.state = {
-            
             OrderInProgress: props.OrderInProgress,
             OrderJustAdded : false,
             ShowErrorMessage: false
-            
 
         }          
 
@@ -61,60 +59,125 @@ class CheckoutCCButtSubmitForm extends React.Component {
 
             }
 
+
             //declares emypt object 
             var Mydata = {};
             var CheckOutdata = this.props.state
+
+
 			//prepopulates the object
             Mydata.CheckOutdata = CheckOutdata 
-            const BearerToken = this.props.auth.getTokenSilently();
-			//makes the API call for the checkout 			
-            let result = Axios.post("http://localhost:51129/api/Checkout", Mydata, 
-            {
-                    headers: {Authorization: `bearer ${BearerToken}`}
 
-            })
-            .then(  (response) =>  {
-               //resets the state                  
-                this.setState({
-                    deliverToBillingAddress: false,
-                    customer: {},
-                    billingAddress: {}, 
-                    deliveryAddress: {},
-                    paymentToken: {},  
-                    SessionId: localStorage.SessionId, 
-                    CheckOutSubmitBtnCkcOnce: false,
-                    OrderJustAdded: true})
-				//triggers the parent function to set state to show the Order was successful page
-			   this.props.OrderSec(this.state.OrderJustAdded)
-             
-				//clears out all the form values 
-			 var Forms = document.getElementsByClassName("form-control")             
-                for (var i=0; i < Forms.length; i++ ) {
-                    if (Forms[i].type === 'text') {
-                        Forms[i].value = '';
-                    }
-                }
-            })  
-            .catch ( () => {
-                //if there is an error in the API call, It resets state and triggers the error message to show
-                this.setState({
-                    OrderInProgress: false,
-                    OrderJustAdded: false,
-                    ShowErrorMessage: true 
+            if (await this.props.auth.isAuthenticated() === true) {
+                const BearerToken = await this.props.auth.getTokenSilently();
+
+                			//makes the API call for the checkout 			
+                            let result = Axios.post("http://localhost:51129/api/Checkout", Mydata
+                            , 
+                        {
+                                headers: {'Authorization': `bearer ${BearerToken}`}
+
+                        }
+                        
+                        )
+                        .then(  (response) =>  {
+                            //resets the state                  
+                            this.setState({
+                                deliverToBillingAddress: false,
+                                customer: {},
+                                billingAddress: {}, 
+                                deliveryAddress: {},
+                                paymentToken: {},  
+                                SessionId: localStorage.SessionId, 
+                                CheckOutSubmitBtnCkcOnce: false,
+                                OrderJustAdded: true})
+                            //triggers the parent function to set state to show the Order was successful page
+                            this.props.OrderSec(this.state.OrderJustAdded)
+                            
+                            //clears out all the form values 
+                            var Forms = document.getElementsByClassName("form-control")             
+                            for (var i=0; i < Forms.length; i++ ) {
+                                if (Forms[i].type === 'text') {
+                                    Forms[i].value = '';
+                                }
+                            }
+                        })  
+                        .catch ( () => {
+                            //if there is an error in the API call, It resets state and triggers the error message to show
+                            this.setState({
+                                OrderInProgress: false,
+                                OrderJustAdded: false,
+                                ShowErrorMessage: true 
+                            
+                            })
+
+                            
+                            //Error message disappears after 6 seconds 
+                            setTimeout(() => {
+                                this.setState({
+
+                                    ShowErrorMessage: false
+
+                                })
+                            }, 6000);
+
+                        })
+
+
                 
-                })
+            } else {
 
-             
-				//Error message disappears after 6 seconds 
-                setTimeout(() => {
-                    this.setState({
+                    			//makes the API call for the checkout 			
+            let result = Axios.post("http://localhost:51129/api/Checkout", Mydata
+           
+           )
+           .then(  (response) =>  {
+              //resets the state                  
+               this.setState({
+                   deliverToBillingAddress: false,
+                   customer: {},
+                   billingAddress: {}, 
+                   deliveryAddress: {},
+                   paymentToken: {},  
+                   SessionId: localStorage.SessionId, 
+                   CheckOutSubmitBtnCkcOnce: false,
+                   OrderJustAdded: true})
+               //triggers the parent function to set state to show the Order was successful page
+              this.props.OrderSec(this.state.OrderJustAdded)
+            
+               //clears out all the form values 
+            var Forms = document.getElementsByClassName("form-control")             
+               for (var i=0; i < Forms.length; i++ ) {
+                   if (Forms[i].type === 'text') {
+                       Forms[i].value = '';
+                   }
+               }
+           })  
+           .catch ( () => {
+               //if there is an error in the API call, It resets state and triggers the error message to show
+               this.setState({
+                   OrderInProgress: false,
+                   OrderJustAdded: false,
+                   ShowErrorMessage: true 
+               
+               })
 
-                        ShowErrorMessage: false
+            
 
-                    })
-                }, 6000);
+               //Error message disappears after 6 seconds 
+               setTimeout(() => {
+                   this.setState({
 
-            })
+                       ShowErrorMessage: false
+
+                   })
+               }, 6000);
+
+           })
+
+            }
+           
+
             
 
 

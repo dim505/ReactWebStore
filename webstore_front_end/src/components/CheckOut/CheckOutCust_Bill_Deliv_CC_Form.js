@@ -18,7 +18,8 @@ export default class CheckOutCustBillDelivCCForm extends React.Component {
          SessionId: localStorage.SessionId, CheckOutSubmitBtnCkcOnce: false,
          open: false,
          OrderSeccessful: false,
-         OrderInProgress: false 
+         OrderInProgress: false,
+         CheckoutTime: ""
         }
 
 	//this function updates the state of the customer personal information with each letter entered in the text boxes 
@@ -54,7 +55,11 @@ export default class CheckOutCustBillDelivCCForm extends React.Component {
 
 
 	//sets payment token state when the check out button is pressed 
-    onPaymentMethodChange = (token) => {
+       onPaymentMethodChange = async (token) => {
+        var today = new Date();             
+        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();                 
+        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();             
+        var TimeStamp = date+' '+time;           
 
 			//checks if the billing address same as delivery address check box is sticked. If yes, the deliver address
 			//takes billing address values 
@@ -88,7 +93,7 @@ export default class CheckOutCustBillDelivCCForm extends React.Component {
                 this.setState ({
                         CheckOutSubmitBtnCkcOnce: false,
                         paymentToken: token.id,
-                       
+                        CheckoutTime: TimeStamp  
                     
                     
                     })  

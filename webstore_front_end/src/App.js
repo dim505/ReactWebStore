@@ -15,6 +15,7 @@ import CheckOut from './components/CheckOut/CheckOutPage';
 import Callback from './components/Callback'
 import LogOutcallback from './components/LogOutcallback'
 import SecureCheckOut from './components/SecureCheckOut'
+import MyOrders from "./components/MyOrders"
 
 export default class App extends React.Component {
  
@@ -187,6 +188,7 @@ if (this.state.ShowBrokenSite === true ) {
               <Route exact path='/' component={() => <ProdList products = {this.state.products} /> } />
               <Route path="/ProdDesc/:id" component={ProdDesc} />
               <Route path="/cart" component={Cart}/>
+              <Route path="/MyOrders" component={() =>  <MyOrders auth={this.props.auth}/>}/>
               <Route path="/callback" component={({...others}) => 
                       <Callback 
                       history={this.props.history}

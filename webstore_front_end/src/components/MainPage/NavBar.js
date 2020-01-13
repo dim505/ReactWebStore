@@ -44,6 +44,9 @@ export default class NaviBar extends Component {
                : <Button variant="outline-success"onClick={this.login}> Log In  </Button> 
           
           }  
+          <LinkContainer to="/MyOrders">
+                 <NavItem>Order History</NavItem>
+            </LinkContainer>
 
               </Nav>
 
