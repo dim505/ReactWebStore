@@ -10,6 +10,11 @@ import Paper from "@material-ui/core/Paper";
 import Button from '@material-ui/core/Button';
 import RemoveButton from "./RemoveBtn";
 import LightSpeed from 'react-reveal/LightSpeed';
+import UpdateQtyBtn from './UpdateQtyBtn'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Container from 'react-bootstrap/Container'
+
 
 export default class Cart extends Component {
     constructor(props) {
@@ -19,8 +24,8 @@ export default class Cart extends Component {
 	  //sets the initial state of the shopping cart 
         this.state = {
           items: [{id: -1, name: 'Test Product', prodQty: 0, price: 0}],
-
-          openSnBar: false
+          QtyUpdateNotifcationSnBar : false,
+          openSnBaropenSnBar: false
       }
   }
   
@@ -72,6 +77,8 @@ export default class Cart extends Component {
 
         }
 
+        
+
 		//function used to refresh the cart after an item is deleted 
       async handleItemRemoved() {
          // console.log(props.id)
@@ -86,9 +93,26 @@ export default class Cart extends Component {
             
             this.setState({
               openSnBar: false
-            }), 2000  )
+            }), 3500  )
         };
 
+         handleQtyUpdate = async () => {
+
+          await this.getCart()
+
+          this.setState({
+            QtyUpdateNotifcationSnBar: true
+          })
+
+
+          setTimeout(() =>             
+          
+          this.setState({
+            QtyUpdateNotifcationSnBar: false
+          }), 3500  )
+
+
+        }
 
 render() { 
 
@@ -131,8 +155,27 @@ render() {
                   {this.state.items.map(item => (
                     <TableRow key={item.id}>
                       <TableCell>{item.name}</TableCell>
-                      <TableCell>{item.prodQty}</TableCell>
-                      <TableCell>{item.price}</TableCell>
+                      <TableCell>
+
+                      <Container>
+                              <Row>
+                                <Col md="auto">{item.prodQty} </Col>
+                                <Col md="auto"> 
+
+                                <UpdateQtyBtn 
+                                 id={item.id}
+                                 handleQtyUpdate={this.handleQtyUpdate}
+                                 QtyUpdateNotifcationSnBar = {this.state.QtyUpdateNotifcationSnBar}
+                                />
+                       </Col>
+                              </Row>
+      
+                      </Container>
+                      
+
+                      </TableCell>
+
+                      <TableCell>${item.price}</TableCell>
                       <TableCell>
                         <RemoveButton  id={item.id}
                          onItemRemoved={this.handleItemRemoved}

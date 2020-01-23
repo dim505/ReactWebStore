@@ -63,11 +63,11 @@ nav.fixed-bottom.navbar.navbar-expand-lg.navbar-light.bg-light p {
 }
   
   
-
 #NumInputstyle {
-	width: 60px;
+	width: 100px;
 	
 }
+
 
 .react-numeric-input {
 	margin-bottom: 6px;
@@ -155,3 +155,25 @@ p {
 	margin-right: 0px;
   }
 
+.NavBtn {
+	margin-right: 10px;
+}
+
+#CheckOutSecPic {
+	width: 50%;
+	margin: auto;
+}
+
+
+
+
+.UpdateQty {
+		border: 1px solid;
+		margin-left: 5px;
+}
+
+.row{
+	margin-bottom: 0px;
+
+
+}

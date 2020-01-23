@@ -112,14 +112,14 @@ export class OrderSummary extends React.Component {
                     <TableRow key={item.id}>
                       <TableCell>{item.name}</TableCell>
                       <TableCell align="right">{item.prodQty}</TableCell>
-                      <TableCell align="right">{item.price}</TableCell>
+                      <TableCell align="right">${item.price}</TableCell>
                     </TableRow>
                   ))}
     
                   <TableRow>
                     <TableCell rowSpan={3} />
                     <TableCell colSpan={2}>Total</TableCell>
-                    <TableCell align="right">{this.state.total}</TableCell>
+                    <TableCell align="right">${this.state.total}</TableCell>
                   </TableRow>
     
                   <TableRow>

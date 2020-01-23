@@ -64,7 +64,7 @@ export default class ProdDesc extends Component {
                                 <Spin>    
                                     <h3> {this.state.name} </h3>
                                     <h5> {this.state.description} </h5>
-                                    <h6>Price: {this.state.price} </h6>
+                                    <h6>Price: ${this.state.price} </h6>
                                     <AddToCart  ProdId = {this.props.match.params.id} />
                                 </Spin>
                         </Col>

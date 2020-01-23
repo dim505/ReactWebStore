@@ -91,6 +91,9 @@ class CheckoutCCButtSubmitForm extends React.Component {
                                 SessionId: localStorage.SessionId, 
                                 CheckOutSubmitBtnCkcOnce: false,
                                 OrderJustAdded: true})
+
+                                localStorage.removeItem("SessionId")
+                                
                             //triggers the parent function to set state to show the Order was successful page
                             this.props.OrderSec(this.state.OrderJustAdded)
                             

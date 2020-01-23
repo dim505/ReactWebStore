@@ -40,13 +40,20 @@ export default class NaviBar extends Component {
             <LinkContainer to="/CheckOut">
                  <NavItem>Check Out</NavItem>
             </LinkContainer> 
-          {   this.props.authenticated || window.handleRedirectCallbackAlreadyCalled === 1 ?  <Button variant="outline-success" onClick={this.logout}> Log Out  </Button>
-               : <Button variant="outline-success"onClick={this.login}> Log In  </Button> 
+            {   this.props.authenticated || window.handleRedirectCallbackAlreadyCalled === 1 ?
+
+               <LinkContainer to="/MyOrders">
+                         <NavItem>Order History</NavItem>
+               </LinkContainer> : <div></div>
+               }
+
+
+
+          {   this.props.authenticated || window.handleRedirectCallbackAlreadyCalled === 1 ?  <Button className="NavBtn" variant="outline-success" onClick={this.logout}> Log Out  </Button>
+               : <Button className="NavBtn" variant="outline-success" onClick={this.login}> Log In  </Button>  
           
           }  
-          <LinkContainer to="/MyOrders">
-                 <NavItem>Order History</NavItem>
-            </LinkContainer>
+
 
               </Nav>
 
