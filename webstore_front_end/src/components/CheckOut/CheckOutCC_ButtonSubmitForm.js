@@ -12,7 +12,7 @@ class CheckoutCCButtSubmitForm extends React.Component {
 
 //declares state  :
 // OrderInProgress - used to trigger circular spinner when the checkout is in progress after submitting checkout
-//ShowErrorMessage - used to 
+ 
 
     constructor(props) {
 

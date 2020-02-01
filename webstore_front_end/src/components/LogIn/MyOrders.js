@@ -20,10 +20,10 @@ export default  class MyOrders extends React.Component {
 
   
    GetHistoricalOrders = async () => {
-
+	
     const BearerToken = await this.props.auth.getTokenSilently();
-    
-    var results = await  Axios.get ('https://webstorebackend.azurewebsites.net/api/login',                           
+    //makes api call to get all orders 
+    var results = await  Axios.get ('http://localhost:51129/api/login',                           
     {
             headers: {'Authorization': `bearer ${BearerToken}`}
     
@@ -47,6 +47,7 @@ export default  class MyOrders extends React.Component {
 
 
 componentDidMount () {
+	//this function makes the API call to get all orders associated with the account 
     this.GetHistoricalOrders();
 
 }
@@ -54,10 +55,10 @@ componentDidMount () {
 
 
     render () {
-
+		
       if (this.state.data.length !== 0 ) {
          
-        
+        //declares variables needed to build out the table 
         let table1 = []
         let TblHead = []
         let TblBody = []  
@@ -70,17 +71,18 @@ componentDidMount () {
 
 
 
-
+			//loops through and builds out the table 
         {this.state.data.map(DataLine => {
+		  //builds out date string into a Human readable format 	
           var d = new Date(DataLine.checkoutTime);
           var DateString = d.toString();
           var HumanReadDateSubStr = DateString.substring(4,15)
           var TimeDateSubStr = DateString.substring(16,21)
           var TimeOrdPlaced = HumanReadDateSubStr + " at "+TimeDateSubStr
           
-
+		
           if ( (PrevDate !== DataLine.checkoutTime  && counter !== 0)) {	
-         
+			//creates totals 
             TblRow.push(
               <TableRow>
               <TableCell rowSpan={3} />
@@ -88,6 +90,7 @@ componentDidMount () {
               <TableCell align="right">${total}</TableCell>
             </TableRow>  
             )
+			//pushes out last row of previous data 
             TblBody.push(    
                      
               <TableBody>
@@ -95,7 +98,7 @@ componentDidMount () {
               </TableBody>)       
 
                       
-
+			//pushes header and body to main page 
             table1.push(
                     <TableContainer component={Paper}>
                       <Table aria-label="spanning table">
@@ -105,6 +108,7 @@ componentDidMount () {
                     </TableContainer>
               )
               
+			 //resets variables for new table 
                TblHead = []
            TblBody = []   
            TblRow = []
@@ -118,7 +122,7 @@ componentDidMount () {
 
           if (PrevDate !== DataLine.checkoutTime) {				
             
-							  
+			//builds out table header 
             TblHead.push(
                     <TableHead>
                         <TableRow>
@@ -168,7 +172,7 @@ componentDidMount () {
                   
                   
                   }
-
+					//ADDS TO BODY OF THE TABLE
                     TblRow.push(
                       
                       <TableRow>
@@ -181,11 +185,12 @@ componentDidMount () {
 
 
 
-
+					//keeps track of date to know when to build out a new table 
                     PrevDate = DataLine.checkoutTime
+					//KEEPS TRACK OF WHAT ROW its on 
                     counter = counter + 1
 
-
+					//builds out final table 
                     if ( (counter) === this.state.data.length  ) {	
                       TblRow.push(
                         <TableRow>
@@ -211,7 +216,9 @@ componentDidMount () {
                               </TableContainer>
                         )
                         
-                     TblHead = []
+                   
+				     //resets all variables 
+     				 TblHead = []
                      TblBody = []   
                      TblRow = []
                      total = 0

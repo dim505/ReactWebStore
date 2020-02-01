@@ -9,13 +9,15 @@ export default class NaviBar extends Component {
 
 
 
-
+	//when the log out button is clicked, user is logged out and redirected to the log out component
       logout = () => {
           this.props.auth.logout({
                returnTo: 'http://localhost:3000/LogOutcallback'
              });
       }
-
+	  
+	  
+		//when a user clicks log in, they are redirected to the Auth0 log in page 
       login = () => {
           this.props.auth.loginWithRedirect();
 
@@ -47,13 +49,20 @@ export default class NaviBar extends Component {
                </LinkContainer> : <div></div>
                }
 
+               {   this.props.authenticated || window.handleRedirectCallbackAlreadyCalled === 1 ?
 
+               <LinkContainer to="/DefMainPage">
+                         <NavItem>Account Details</NavItem>
+               </LinkContainer> : <div></div>
+               }
 
           {   this.props.authenticated || window.handleRedirectCallbackAlreadyCalled === 1 ?  <Button className="NavBtn" variant="outline-success" onClick={this.logout}> Log Out  </Button>
                : <Button className="NavBtn" variant="outline-success" onClick={this.login}> Log In  </Button>  
           
           }  
 
+
+          
 
               </Nav>
 

@@ -15,6 +15,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Azure.Services.AppAuthentication;
 using Microsoft.Azure.KeyVault;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 
 namespace Webstore_back__end
 {
@@ -33,7 +35,7 @@ namespace Webstore_back__end
             services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContext<WebStoreDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("WebStoreDbContext")));
-            //var domain = $"https://{Configuration["Auth0:Domain"]}/";
+            string domain = $"https://{Configuration["Auth0:Domain"]}/";
             services.AddAuthentication(Options =>
                 {
                     Options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -41,10 +43,18 @@ namespace Webstore_back__end
 
                 }).AddJwtBearer(Options =>
                 {
-                    Options.Authority = "dev-5wttvoce.auth0.com";
-                    Options.Audience = "https://ReactJSWebstoreAPI.com";
+                    
+                    Options.Authority = domain;
+                    Options.Audience = Configuration["Auth0:ApiIdentifier"];
                     Options.RequireHttpsMetadata = false;
+                    Options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        NameClaimType = ClaimTypes.NameIdentifier
+                    };
+
                 });
+
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,7 +70,7 @@ namespace Webstore_back__end
                 app.UseHsts();
             }
 
-                
+            
 
             app.UseCors(builder =>
                   builder.WithOrigins(
@@ -70,8 +80,8 @@ namespace Webstore_back__end
                   .AllowAnyHeader()
                   .AllowAnyMethod()
                   ); ;
+
             app.UseAuthentication();
-            app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

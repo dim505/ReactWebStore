@@ -25,8 +25,25 @@ namespace WebStore.Controllers
              
         }
 
+       
 
 
+        [HttpPost]
+        [Route("[action]")]
+         
+        //this action method is used to insert products into a shopping cart, update quantities and make new shopping carts as necessary 
+        public void UpdateCart([FromBody]JObject data)
+        {
+
+            UpdateCart updatecart = data["UpdateData"].ToObject<UpdateCart>();
+            var SqlQuery = "Update CartLineItem set ProdQty = '" + updatecart.qty + "' " +
+                            "where SessionID = '" + updatecart.SessionID + "' " +
+                            "and ProdID = '" + updatecart.ItmID + "'";
+            _context.Database.ExecuteSqlCommand(SqlQuery);
+
+        }
+        
+            
         [HttpPost]
 				//this action method is used to insert products into a shopping cart, update quantities and make new shopping carts as necessary 
                 public string Post([FromBody]JObject data)
@@ -46,7 +63,7 @@ namespace WebStore.Controllers
                                 var SqlQuery2 = "Insert into [WebStore_db].[dbo].[CartLineItem] values ('" + Sessionid + "','" + postRequest.ProdID + "','" + postRequest.ProdQTY + "')";
 								//updates the session id variable 
 							   postRequest.Sessionid = Sessionid;
-
+                    
 								//exicutes the sql queries 
                                 _context.Database.ExecuteSqlCommand(SqlQuery);
                                 _context.Database.ExecuteSqlCommand(SqlQuery2);

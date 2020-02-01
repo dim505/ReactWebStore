@@ -82,13 +82,14 @@ export default class Cart extends Component {
 		//function used to refresh the cart after an item is deleted 
       async handleItemRemoved() {
          // console.log(props.id)
-         
+         //refreshes the cart after item is removed 
          await this.getCart()
+		 //shows the notification to the user that remove the item was successful 
             this.setState({
               openSnBar: true
             })
 
-
+			//notification goes away after a few seconds
             setTimeout(() =>             
             
             this.setState({
@@ -96,15 +97,16 @@ export default class Cart extends Component {
             }), 3500  )
         };
 
+		
          handleQtyUpdate = async () => {
-
+		  //refreshes the cart after the quantity was updated 
           await this.getCart()
-
+		   //shows the notification to the user that updating the quantity was successful 
           this.setState({
             QtyUpdateNotifcationSnBar: true
           })
 
-
+			//notification goes away after a few seconds
           setTimeout(() =>             
           
           this.setState({

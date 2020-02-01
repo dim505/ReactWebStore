@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+//this model represent data (items) thats being pulled from the CartLineItem table. The Cart Controller uses this 
 namespace WebStore.models
 {
     public class CartLineItem

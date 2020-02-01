@@ -13,18 +13,20 @@ export default class  SecureCheckOut extends React.Component {
     }
   
     async componentDidMount () {
+		//Checks if a user is logged in 
         const isLoggedIn = await this.props.auth.isAuthenticated();
+		//sets state if user is logged in
         this.setState({ authenticated: isLoggedIn})
     }
     
   
     async HandleLogin () {
-  
+	 //when clicked, this redirects the user to the auth0 login page 
       await this.props.auth.loginWithRedirect();
   
   
     }
-
+		//when clicked this flag will allow the user to continue as guest at checkout
     async ContinueAsGuest () {
       this.setState({ContinueAsGuest: true})
 

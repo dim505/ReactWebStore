@@ -17,7 +17,7 @@ using System.Security.Claims;
 namespace Webstore_back__end.Controllers
 {
 
-    [AllowAnonymous]
+   // [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CheckoutController : ControllerBase
@@ -32,22 +32,34 @@ namespace Webstore_back__end.Controllers
             _context = context;
         }
 
-
-        // C:\scratch\ReactWebStore\webstore_front_end
-
+ 
         [HttpPost]
 
         public IActionResult Checkout([FromBody]JObject data)
         {
+            var LoginUserIdentifier = "";
 
-           // var UserIdentifier = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            try
+            {
+				//gets the login token from Auth0
+                LoginUserIdentifier  = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            }
+            catch (Exception e)
+            {
+                LoginUserIdentifier = "";
+
+            }
+
+
             //gets the customer data and maps it to the checkout object 
             CheckOut checkout = data["CheckOutdata"].ToObject<CheckOut>();
-			//builds out a SQL query for an entry into the order header table contain information about the order 
+
+
+            //builds out a SQL query for an entry into the order header table contain information about the order 
             var SqlQuery = "Insert into OrderHeader values ('" + checkout.customer.firstName + "','" + checkout.customer.lastName + "',' "+ checkout.customer.email +
              "','"  +  checkout.billingAddress.StreetAddress + "','" + checkout.billingAddress.city + "','" + checkout.billingAddress.State + "','"+ checkout.billingAddress.ZipCode
               + "','" + checkout.billingAddress.Country + "','"+ checkout.deliveryAddress.StreetAddress + "','" + checkout.deliveryAddress.city + "','"+ checkout.deliveryAddress.State
-               + "','" + checkout.deliveryAddress.Country  + "','" + checkout.SessionId + "','" +  checkout.deliveryAddress.ZipCode + "')";
+               + "','" + checkout.deliveryAddress.Country  + "','" + checkout.SessionId + "','" +  checkout.deliveryAddress.ZipCode + "','" + LoginUserIdentifier  + "','" + checkout.CheckoutTime + "')";
 
 
             //Finds all the items with the customers session ID 

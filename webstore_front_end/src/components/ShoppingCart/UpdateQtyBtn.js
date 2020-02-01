@@ -16,16 +16,18 @@ export default class UpdateQtyBtn   extends Component  {
  
  
     handleClick  = (e) => {
+		//prevents the page from refreshing 
         e.preventDefault();
-
+		//updating this state shows the NumericInput and update/cancel buttons 
         this.setState({
             UpdateLinkClicked: true           
         })
         console.log('The link was clicked.');
 }
-    update = async (e) => {
+    update = async (e) => { 
+		//prevents the page from refreshing 
         e.preventDefault();
-
+		// deletes item if update QTy is greater than 0
         if (document.getElementById('NumInputstyle').value > 0){
             //declares emypt object 
             var Mydata = {};
@@ -36,7 +38,9 @@ export default class UpdateQtyBtn   extends Component  {
                 }
                 Mydata.UpdateData = UpdateData 
                 console.log(Mydata)
-                let result = await Axios.post("http://localhost:51129/api/cart/UpdateCart", Mydata)
+               
+				//makes api call to delete item
+			   let result = await Axios.post("http://localhost:51129/api/cart/UpdateCart", Mydata)
                 .then(  (result) =>  {
                     console.log(result);
                     
@@ -53,12 +57,12 @@ export default class UpdateQtyBtn   extends Component  {
 
         } else {
 
-
+			//notifies user they need qty greater than 0
             this.setState({
                 SnackbarErrorPopup: true
               })
   
-  
+		//makes error notification go away
               setTimeout(() =>             
               
               this.setState({
@@ -78,8 +82,9 @@ export default class UpdateQtyBtn   extends Component  {
 
     cancel = async (e) => {
 
-
+	//prevents the page from refreshing 
         e.preventDefault();
+		//changes component to the default state before button was pressed 
         this.setState({
             UpdateLinkClicked: false           
         })
@@ -89,7 +94,7 @@ export default class UpdateQtyBtn   extends Component  {
 
 
    render () {
-
+	//if update link is clicked, the update will pop up 
     var UpdateLinkClicked = this.state.UpdateLinkClicked
     
     if (UpdateLinkClicked ) {

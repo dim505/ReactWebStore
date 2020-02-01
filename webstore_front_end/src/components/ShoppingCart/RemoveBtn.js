@@ -8,6 +8,9 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import Snackbar from "@material-ui/core/Snackbar";
 import Axios from 'axios'
 
+
+
+//this button is used to remove items from the shopping cart 
 export default function RemoveButton (props)  {
  
 

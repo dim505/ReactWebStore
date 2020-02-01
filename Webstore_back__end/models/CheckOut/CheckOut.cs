@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
+//this model represents the data being sent to the CheckOut controller after checking out. Its processed into the order tables
 namespace Webstore_back__end.models
 {
     public class CheckOut
@@ -14,7 +16,7 @@ namespace Webstore_back__end.models
         public string paymentToken { get; set; }
 
         public Customer customer { get; set; }
-
+        public string CheckoutTime { get; set; }
 
 
 

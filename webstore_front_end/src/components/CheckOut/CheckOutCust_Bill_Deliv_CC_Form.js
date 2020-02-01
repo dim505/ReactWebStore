@@ -43,7 +43,8 @@ export default class CheckOutCustBillDelivCCForm extends React.Component {
             this.setState({deliverToBillingAddress: !this.state.deliverToBillingAddress})
     }
 
-	
+		
+	   
      isEmpty(obj) {
         for(var key in obj) {
             if(obj.hasOwnProperty(key))
@@ -100,7 +101,7 @@ export default class CheckOutCustBillDelivCCForm extends React.Component {
                        
                     
             } else {
-
+				//sets flags to show error boxes
                 this.setState({
                     CheckOutSubmitBtnCkcOnce: true,
                     OpenErrorFillRedForms: true,

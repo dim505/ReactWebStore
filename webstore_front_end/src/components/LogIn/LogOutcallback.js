@@ -12,6 +12,7 @@ export default class LogOutcallback extends React.Component {
 
 async componentDidMount() {
 
+	//pushes back to home page after a user logs  out 
    setTimeout(() => {  this.props.history.push('/');  }, 4000);
 
 

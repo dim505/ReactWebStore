@@ -4,7 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Webstore_back__end.models
 {
-
+	//this model represents the data that returns all the items with the customers session ID assoicated with a shopping cart
+	//The checkout controller uses this
     [Table("CartLineItem")]
     public class CheckOutItemsList
     {

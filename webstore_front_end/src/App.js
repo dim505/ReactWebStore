@@ -12,10 +12,11 @@ import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
 import Spinner from 'react-easy-spinner';
 import Cart from './components/ShoppingCart/Cart'
 import CheckOut from './components/CheckOut/CheckOutPage';
-import Callback from './components/Callback'
-import LogOutcallback from './components/LogOutcallback'
-import SecureCheckOut from './components/SecureCheckOut'
-import MyOrders from "./components/MyOrders"
+import Callback from './components/LogIn/Callback'
+import LogOutcallback from './components/LogIn/LogOutcallback'
+import SecureCheckOut from './components/LogIn/SecureCheckOut'
+import MyOrders from "./components/LogIn/MyOrders"
+import DefMainPage from "./components/LogIn/DefMainPage"
 
 export default class App extends React.Component {
  
@@ -189,6 +190,8 @@ if (this.state.ShowBrokenSite === true ) {
               <Route path="/ProdDesc/:id" component={ProdDesc} />
               <Route path="/cart" component={Cart}/>
               <Route path="/MyOrders" component={() =>  <MyOrders auth={this.props.auth}/>}/>
+              <Route path="/DefMainPage" component= {() => <DefMainPage auth={this.props.auth}/>} />
+              
               <Route path="/callback" component={({...others}) => 
                       <Callback 
                       history={this.props.history}
