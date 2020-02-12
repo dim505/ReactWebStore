@@ -172,8 +172,7 @@ p {
 		margin-left: 5px;
 }
 
-.row{
-	margin-bottom: 0px;
-
+.UpdateQtyRow{
+	margin-bottom: 5px !important;
 
 }

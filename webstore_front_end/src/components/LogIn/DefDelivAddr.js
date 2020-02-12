@@ -1,6 +1,7 @@
 import React from "react";
 import { Form, Col, Row } from "react-bootstrap";
-import axios from "axios";import Checkbox from '@material-ui/core/Checkbox';
+import axios from "axios";
+import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 
@@ -11,6 +12,11 @@ export default class DefDelivAddress extends React.Component {
     //calls this function upon mounting the component to get the account information to fill out the forms 
      this.GetDelivAddrInfo();
    }
+
+   isEmpty(str) {
+    return (!str || /^\s*$/.test(str));
+    }
+
  
    GetDelivAddrInfo = async () => {
 
@@ -19,7 +25,7 @@ export default class DefDelivAddress extends React.Component {
 
   
                       //Makes API call to get Billing address for account user 
-                     var  results = await axios.get("http://localhost:51129/api/login/GetDefDelivAddr",
+                     var  results = await axios.get("https://webstorebackend.azurewebsites.net/api/login/GetDefDelivAddr",
                       {
                        headers: {'Authorization': `bearer ${BearerToken}`}
                      }).then (async (results) => {
@@ -41,6 +47,9 @@ export default class DefDelivAddress extends React.Component {
 
 
                        })
+
+                       this.props.onChanged(this.state)
+                       
                      })
 
                      
@@ -70,7 +79,7 @@ export default class DefDelivAddress extends React.Component {
               <Col sm="10">
                 <Form.Control
                   className={
-                    this.props.flag && !Boolean(this.state.StreetAddress)
+                    this.props.flag && this.isEmpty(this.state.StreetAddress)
                       ? "ShowRed"
                       : " "
                   }
@@ -92,7 +101,7 @@ export default class DefDelivAddress extends React.Component {
               <Col sm="10">
                 <Form.Control
                   className={
-                    this.props.flag && !Boolean(this.state.city)
+                    this.props.flag && this.isEmpty(this.state.city)
                       ? "ShowRed"
                       : " "
                   }
@@ -114,7 +123,7 @@ export default class DefDelivAddress extends React.Component {
               <Col sm="10">
                 <Form.Control
                   className={
-                    this.props.flag && !Boolean(this.state.State)
+                    this.props.flag && this.isEmpty(this.state.State)
                       ? "ShowRed"
                       : " "
                   }
@@ -136,7 +145,7 @@ export default class DefDelivAddress extends React.Component {
               <Col sm="10">
                 <Form.Control
                   className={
-                    this.props.flag && !Boolean(this.state.ZipCode)
+                    this.props.flag && this.isEmpty(this.state.ZipCode)
                       ? "ShowRed"
                       : " "
                   }
@@ -158,7 +167,7 @@ export default class DefDelivAddress extends React.Component {
               <Col sm="10">
                 <Form.Control
                   className={
-                    this.props.flag && !Boolean(this.state.country)
+                    this.props.flag && this.isEmpty(this.state.country)
                       ? "ShowRed"
                       : " "
                   }

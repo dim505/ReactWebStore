@@ -40,7 +40,7 @@ export default class UpdateQtyBtn   extends Component  {
                 console.log(Mydata)
                
 				//makes api call to delete item
-			   let result = await Axios.post("http://localhost:51129/api/cart/UpdateCart", Mydata)
+			   let result = await Axios.post("https://webstorebackend.azurewebsites.net/api/cart/UpdateCart", Mydata)
                 .then(  (result) =>  {
                     console.log(result);
                     

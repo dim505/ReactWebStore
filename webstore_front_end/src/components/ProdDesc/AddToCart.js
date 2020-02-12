@@ -75,7 +75,7 @@ export default class AddToCart extends React.Component {
                         var PostRequest = {SessionId: SessionId, ProdID: this.props.ProdId, ProdQTY: document.getElementById('NumInputstyle').value }
 						//makes POST API request 	
                         Mydata.Postdata = PostRequest      
-                        let result = Axios.post("http://localhost:51129/api/cart", Mydata)
+                        let result = Axios.post("https://webstorebackend.azurewebsites.net/api/cart", Mydata)
                         .then(  (response) =>  {
                             console.log(response);
 							//overwrites session id with existing ID or writes a new one if one does not exist 

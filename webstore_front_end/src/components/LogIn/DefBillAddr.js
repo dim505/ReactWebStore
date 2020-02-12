@@ -13,6 +13,9 @@ export default class DefBillAddr extends React.Component {
      this.GetAccountInfo();
    }
 
+   isEmpty(str) {
+    return (!str || /^\s*$/.test(str));
+    }
 
    GetAccountInfo = async () => { 
 
@@ -25,7 +28,7 @@ export default class DefBillAddr extends React.Component {
        
       
     //Makes API call to get Billing address for account user 
-     results = await axios.get("http://localhost:51129/api/login/GetDefBillAddr",
+     results = await axios.get("https://webstorebackend.azurewebsites.net/api/login/GetDefBillAddr",
      {
       
       headers: {'Authorization': `bearer ${BearerToken}`}
@@ -51,6 +54,9 @@ export default class DefBillAddr extends React.Component {
              
            
       })
+
+      this.props.onChanged(this.state)
+      
     })
 
 
@@ -74,7 +80,7 @@ export default class DefBillAddr extends React.Component {
           <Col sm="10">
             <Form.Control
               className={
-                this.props.flag && !Boolean(this.state.StreetAddress)
+                this.props.flag && this.isEmpty(this.state.StreetAddress)
                   ? "ShowRed"
                   : " "
               }
@@ -96,7 +102,7 @@ export default class DefBillAddr extends React.Component {
           <Col sm="10">
             <Form.Control
               className={
-                this.props.flag && !Boolean(this.state.city) ? "ShowRed" : " "
+                this.props.flag && this.isEmpty(this.state.city) ? "ShowRed" : " "
               }
               type="text"
               id="DefBillCity"
@@ -116,7 +122,7 @@ export default class DefBillAddr extends React.Component {
           <Col sm="10">
             <Form.Control
               className={
-                this.props.flag && !Boolean(this.state.State) ? "ShowRed" : " "
+                this.props.flag && this.isEmpty(this.state.State) ? "ShowRed" : " "
               }
               type="text"
               id="DefBillState"
@@ -136,7 +142,7 @@ export default class DefBillAddr extends React.Component {
           <Col sm="10">
             <Form.Control
               className={
-                this.props.flag && !Boolean(this.state.ZipCode)
+                this.props.flag && this.isEmpty(this.state.ZipCode)
                   ? "ShowRed"
                   : " "
               }
@@ -146,7 +152,7 @@ export default class DefBillAddr extends React.Component {
               onChange={event =>
                 this.handleChange({ ZipCode: event.target.value })
               }
-              placeholder="Zip Code"
+              placeholder="Default Zip Code"
             />
           </Col>
         </Form.Group>
@@ -158,7 +164,7 @@ export default class DefBillAddr extends React.Component {
           <Col sm="10">
             <Form.Control
               className={
-                this.props.flag && !Boolean(this.state.country)
+                this.props.flag && this.isEmpty(this.state.country)
                   ? "ShowRed"
                   : " "
               }

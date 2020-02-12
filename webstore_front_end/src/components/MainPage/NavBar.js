@@ -3,6 +3,7 @@ import { Navbar, Nav, NavItem } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import SearchBar from './SearchBar'
 import {  Button} from "react-bootstrap";
+import Tooltip from "../CheckOut/ToolTip";  
 
 //this Component is the navigation bar. It defines how to get to each component 
 export default class NaviBar extends Component { 
@@ -12,7 +13,7 @@ export default class NaviBar extends Component {
 	//when the log out button is clicked, user is logged out and redirected to the log out component
       logout = () => {
           this.props.auth.logout({
-               returnTo: 'http://localhost:3000/LogOutcallback'
+               returnTo: 'https://reactwebstore.azurewebsites.net/LogOutcallback'
              });
       }
 	  
@@ -23,7 +24,20 @@ export default class NaviBar extends Component {
 
 
       }
-     render() {
+
+
+
+     render() 
+     
+     {      
+          
+          const QuestIconStyle = {
+          marginTop: "7px",
+          fontSize: "24px",
+          color:"red"
+    
+    
+        }
    return <Navbar bg="light" expand="lg">
             <LinkContainer to="/">
                  <Navbar.Brand>WebStore </Navbar.Brand>
@@ -60,6 +74,18 @@ export default class NaviBar extends Component {
                : <Button className="NavBtn" variant="outline-success" onClick={this.login}> Log In  </Button>  
           
           }  
+                       <Tooltip
+        placement="bottom"
+        tooltip="Would you like to Log in without creating an account?
+        Please use these credentials:
+        **** Username: test@mailiinator.com ****
+        **** Password: Abcd@1234 *****       
+        "
+                              >
+                                
+        <i className="fa fa-question-circle" style={QuestIconStyle}></i> 
+        
+        </Tooltip>
 
 
           

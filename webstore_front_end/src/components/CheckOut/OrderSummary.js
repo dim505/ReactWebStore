@@ -24,7 +24,7 @@ export class OrderSummary extends React.Component {
 			
 			
 			//builds URL string 
-            const URL = `http://localhost:51129/api/cart/${localStorage.SessionId}`
+            const URL = `https://webstorebackend.azurewebsites.net/api/cart/${localStorage.SessionId}`
              
 			 //makes API call 
             var response = await Axios.get(URL)

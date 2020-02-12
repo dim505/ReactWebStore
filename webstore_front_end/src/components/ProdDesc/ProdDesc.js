@@ -26,7 +26,7 @@ export default class ProdDesc extends Component {
 
 	//makes the API call to get the complete information for the product that was selected 
     async componentDidMount() {
-        let results = await Axios(`http://localhost:51129/api/productapi/${this.props.match.params.id}`)
+        let results = await Axios(`https://webstorebackend.azurewebsites.net/api/productapi/${this.props.match.params.id}`)
         
         this.setState({
             name: results.data[0].name,

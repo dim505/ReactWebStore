@@ -40,7 +40,7 @@ export default class Cart extends Component {
 			//if there is a session ID stored in the browser, it will make a API call to get the cart 
           if (localStorage.SessionId !== undefined ) {
 			//creates the URL to be called 
-            const URL = `http://localhost:51129/api/cart/${localStorage.SessionId}`
+            const URL = `https://webstorebackend.azurewebsites.net/api/cart/${localStorage.SessionId}`
              
 			//makes thr API call
             var response = await Axios.get(URL)
@@ -160,7 +160,7 @@ render() {
                       <TableCell>
 
                       <Container>
-                              <Row>
+                              <Row className="UpdateQtyRow">
                                 <Col md="auto">{item.prodQty} </Col>
                                 <Col md="auto"> 
 

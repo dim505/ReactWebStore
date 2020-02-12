@@ -1,6 +1,7 @@
 import React from 'react';
 import {Form, Col,  Row} from 'react-bootstrap' 
 import RubberBand  from 'react-reveal/RubberBand'
+import axios from "axios";
  
 //this form contains the text fields for the Billing section of the shopping cart 
 export default class CustBillAddr  extends React.Component {
@@ -14,10 +15,67 @@ export default class CustBillAddr  extends React.Component {
 
     }
 
+    isEmpty(str) {
+        return (!str || /^\s*$/.test(str));
+    }
+
+    componentDidMount() {
+        //calls this function upon mounting the component to get the billing information to fill out the forms 
+         this.GetAccountInfo();
+       }
+    
+    
+       GetAccountInfo = async () => { 
+    
+    
+                  //gets token to present to backend API  from Auth0 to show this is a valid user 
+                const BearerToken = await this.props.auth.getTokenSilently();
+                //Makes API call to get account user name and email
+                  var  results = ""
+        
+           
+          
+        //Makes API call to get Billing address for account user 
+         results = await axios.get("https://webstorebackend.azurewebsites.net/api/login/GetDefBillAddr",
+         {
+          
+          headers: {'Authorization': `bearer ${BearerToken}`}
+      
+          
+        }).then (async (results) => {
+          console.log(results.data)
+    
+    
+          if (results.data[0].useDefBillAddr === 'True') 
+             
+          {        //sets state to fill form
+            this.setState({
+                   StreetAddress: results.data[0].streetAddress,
+                   city: results.data[0].city,
+                   State: results.data[0].state,
+                   ZipCode: results.data[0].zipCode,
+                   country: results.data[0].country,
+                   
+                 
+            })
+      
+            this.props.onChanged(this.state)}
+          
+    
+    
+
+          
+        })
+    
+    
+      }
+
+
+
     render () {
         return (
             <Form>
-                    <RubberBand  when={this.props.flag && !Boolean(this.state.StreetAddress)}> 
+                    <RubberBand  when={this.props.flag && this.isEmpty(this.state.StreetAddress)}> 
                         <Form.Group as={Row} >
                                     <Form.Label column sm="2">
                                     Street Address
@@ -25,7 +83,7 @@ export default class CustBillAddr  extends React.Component {
                                     <Col sm="10">
                                     <Form.Control 
                                                   className={
-                                                    this.props.flag && !Boolean(this.state.StreetAddress)
+                                                    this.props.flag && this.isEmpty(this.state.StreetAddress)
                                                       ? "ShowRed"
                                                       : " "
                                                   }
@@ -37,7 +95,7 @@ export default class CustBillAddr  extends React.Component {
                             </Form.Group>
                             </RubberBand >
 
-                            <RubberBand  when={this.props.flag && !Boolean(this.state.StreetAddress)}> 
+                            <RubberBand  when={this.props.flag && this.isEmpty(this.state.StreetAddress)}> 
                             <Form.Group as={Row}>
                                     <Form.Label column sm="2">
                                     city
@@ -45,7 +103,7 @@ export default class CustBillAddr  extends React.Component {
                                     <Col sm="10">
                                     <Form.Control 
                                     className={
-                                    this.props.flag && !Boolean(this.state.city)
+                                    this.props.flag && this.isEmpty(this.state.city)
                                         ? "ShowRed"
                                         : " "
                                     }
@@ -57,7 +115,7 @@ export default class CustBillAddr  extends React.Component {
                             </Form.Group>
                             </RubberBand >
 
-                            <RubberBand  when={this.props.flag && !Boolean(this.state.StreetAddress)}> 
+                            <RubberBand  when={this.props.flag && this.isEmpty(this.state.StreetAddress)}> 
                             <Form.Group as={Row}>
                                     <Form.Label column sm="2">
                                     State
@@ -65,7 +123,7 @@ export default class CustBillAddr  extends React.Component {
                                     <Col sm="10">
                                     <Form.Control 
                                     className={
-                                    this.props.flag && !Boolean(this.state.State)
+                                    this.props.flag && this.isEmpty(this.state.State)
                                         ? "ShowRed"
                                         : " "
                                     }
@@ -77,7 +135,7 @@ export default class CustBillAddr  extends React.Component {
                             </Form.Group>
                             </RubberBand >
 
-                            <RubberBand  when={this.props.flag && !Boolean(this.state.StreetAddress)}> 
+                            <RubberBand  when={this.props.flag && this.isEmpty(this.state.StreetAddress)}> 
                             <Form.Group as={Row}>
                                     <Form.Label column sm="2">
                                     Zip Code
@@ -85,7 +143,7 @@ export default class CustBillAddr  extends React.Component {
                                     <Col sm="10">
                                     <Form.Control 
                                     className={
-                                    this.props.flag && !Boolean(this.state.ZipCode)
+                                    this.props.flag && this.isEmpty(this.state.ZipCode)
                                         ? "ShowRed"
                                         : " "
                                     }
@@ -97,7 +155,7 @@ export default class CustBillAddr  extends React.Component {
                             </Form.Group>
                             </RubberBand >
 
-                            <RubberBand  when={this.props.flag && !Boolean(this.state.StreetAddress)}> 
+                            <RubberBand  when={this.props.flag && this.isEmpty(this.state.StreetAddress)}> 
                             <Form.Group as={Row}>
                                     <Form.Label column sm="2">
                                     Country
@@ -105,7 +163,7 @@ export default class CustBillAddr  extends React.Component {
                                     <Col sm="10">
                                     <Form.Control 
                                     className={
-                                    this.props.flag && !Boolean(this.state.country)
+                                    this.props.flag && this.isEmpty(this.state.country)
                                         ? "ShowRed"
                                         : " "
                                     }

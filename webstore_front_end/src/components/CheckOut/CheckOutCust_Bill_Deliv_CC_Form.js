@@ -38,6 +38,7 @@ export default class CheckOutCustBillDelivCCForm extends React.Component {
     }
 
 
+
 	//function used to update deliverToBillingAddress flag, this hides the delivery address component if its has the same information as the billing address
     toggleUseBillingAddress = () => {
             this.setState({deliverToBillingAddress: !this.state.deliverToBillingAddress})
@@ -45,12 +46,8 @@ export default class CheckOutCustBillDelivCCForm extends React.Component {
 
 		
 	   
-     isEmpty(obj) {
-        for(var key in obj) {
-            if(obj.hasOwnProperty(key))
-                return false;
-        }
-        return true;
+     isEmpty(str) {
+        return (!str || /^\s*$/.test(str));
     }
 
 
@@ -162,11 +159,14 @@ export default class CheckOutCustBillDelivCCForm extends React.Component {
                           <h4>Your Details    </h4>
                           <CustomerDetails
                           flag={this.state.CheckOutSubmitBtnCkcOnce}
-                          onChanged={this.handleCustomerDetailsUpdated} />
+                          onChanged={this.handleCustomerDetailsUpdated} 
+                          auth = {this.props.auth}/>
                           <h4>Billing Address     </h4>
                           <CustBillAddr 
                           flag={this.state.CheckOutSubmitBtnCkcOnce}
-                          onChanged={this.handleBillingddressDetailsUpdated}/>
+                          onChanged={this.handleBillingddressDetailsUpdated}
+                          auth = {this.props.auth}
+                          isEmpty = {this.isEmpty()}/>
                           <Form.Check inline label="Please click check box if delivery address is the same as billing address" type="checkbox" id="BillToDeliveryCheckBox"  onClick={() => this.toggleUseBillingAddress() }/>                    
                           {!this.state.deliverToBillingAddress &&
                                   <div>
@@ -174,7 +174,8 @@ export default class CheckOutCustBillDelivCCForm extends React.Component {
                                       <CustDelivAddr 
                                       ShowDeliv={this.state.deliverToBillingAddress}
                                       flag={this.state.CheckOutSubmitBtnCkcOnce}
-                                      onChanged={this.handleDeliveryaddressDetailsUpdated}/>
+                                      onChanged={this.handleDeliveryaddressDetailsUpdated}
+                                      auth = {this.props.auth}/>
                                   </div>
                             }
                           <StripeProvider apiKey='pk_test_zaWyvliomz572zcBnFEvreOs00ykM1wcnO'>

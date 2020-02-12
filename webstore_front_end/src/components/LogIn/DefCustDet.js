@@ -16,6 +16,10 @@ export default class DefCustomerDetails extends React.Component {
     });
   }
 
+  isEmpty(str) {
+    return (!str || /^\s*$/.test(str));
+}
+
   componentDidMount() {
     //calls this function upon mounting the component to get the account information to fill out the forms 
      this.GetAccountInfo();
@@ -28,7 +32,7 @@ export default class DefCustomerDetails extends React.Component {
     	//gets token to present to backend API  from Auth0 to show this is a valid user 
       const BearerToken = await this.props.auth.getTokenSilently();
       //Makes API call to get account user name and email
-        var  results = await axios.get("http://localhost:51129/api/login/GetDefCustomerDetails",
+        var  results = await axios.get("https://webstorebackend.azurewebsites.net/api/login/GetDefCustomerDetails",
         {
          
          headers: {'Authorization': `bearer ${BearerToken}`}
@@ -49,7 +53,7 @@ export default class DefCustomerDetails extends React.Component {
            
 
          })
-
+         this.props.onChanged(this.state)
 
 
        })
@@ -71,7 +75,7 @@ export default class DefCustomerDetails extends React.Component {
           <Col sm="10">
             <Form.Control
               className={
-                this.props.flag && !Boolean(this.state.firstName)
+                this.props.flag && this.isEmpty(this.state.firstName)
                   ? "ShowRed"
                   : " "
               }
@@ -93,7 +97,7 @@ export default class DefCustomerDetails extends React.Component {
           <Col sm="10">
             <Form.Control
               className={
-                this.props.flag && !Boolean(this.state.lastName)
+                this.props.flag && this.isEmpty(this.state.lastName)
                   ? "ShowRed"
                   : " "
               }
@@ -115,7 +119,7 @@ export default class DefCustomerDetails extends React.Component {
           <Col sm="10">
             <Form.Control
               className={
-                this.props.flag && !Boolean(this.state.email) ? "ShowRed" : " "
+                this.props.flag && this.isEmpty(this.state.email) ? "ShowRed" : " "
               }
               id="DefEmail"
               type="text"
