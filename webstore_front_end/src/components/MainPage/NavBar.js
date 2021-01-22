@@ -78,7 +78,7 @@ export default class NaviBar extends Component {
         placement="bottom"
         tooltip="Would you like to Log in without creating an account?
         Please use these credentials:
-        **** Username: test@mailiinator.com ****
+        **** Username: test@mailinator.com ****
         **** Password: Abcd@1234 *****       
         "
                               >

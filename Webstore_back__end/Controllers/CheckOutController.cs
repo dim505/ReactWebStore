@@ -17,7 +17,7 @@ using System.Security.Claims;
 namespace Webstore_back__end.Controllers
 {
 
-   // [Authorize]
+    // [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CheckoutController : ControllerBase
@@ -32,7 +32,7 @@ namespace Webstore_back__end.Controllers
             _context = context;
         }
 
- 
+
         [HttpPost]
 
         public IActionResult Checkout([FromBody]JObject data)
@@ -41,8 +41,8 @@ namespace Webstore_back__end.Controllers
 
             try
             {
-				//gets the login token from Auth0
-                LoginUserIdentifier  = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+                //gets the login token from Auth0
+                LoginUserIdentifier = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             }
             catch (Exception e)
             {
@@ -56,35 +56,35 @@ namespace Webstore_back__end.Controllers
 
 
             //builds out a SQL query for an entry into the order header table contain information about the order 
-            var SqlQuery = "Insert into OrderHeader values ('" + checkout.customer.firstName + "','" + checkout.customer.lastName + "',' "+ checkout.customer.email +
-             "','"  +  checkout.billingAddress.StreetAddress + "','" + checkout.billingAddress.city + "','" + checkout.billingAddress.State + "','"+ checkout.billingAddress.ZipCode
-              + "','" + checkout.billingAddress.Country + "','"+ checkout.deliveryAddress.StreetAddress + "','" + checkout.deliveryAddress.city + "','"+ checkout.deliveryAddress.State
-               + "','" + checkout.deliveryAddress.Country  + "','" + checkout.SessionId + "','" +  checkout.deliveryAddress.ZipCode + "','" + LoginUserIdentifier  + "','" + checkout.CheckoutTime + "')";
+            var SqlQuery = "Insert into OrderHeader values ('" + checkout.customer.firstName + "','" + checkout.customer.lastName + "',' " + checkout.customer.email +
+             "','" + checkout.billingAddress.StreetAddress + "','" + checkout.billingAddress.city + "','" + checkout.billingAddress.State + "','" + checkout.billingAddress.ZipCode
+              + "','" + checkout.billingAddress.Country + "','" + checkout.deliveryAddress.StreetAddress + "','" + checkout.deliveryAddress.city + "','" + checkout.deliveryAddress.State
+               + "','" + checkout.deliveryAddress.Country + "','" + checkout.SessionId + "','" + checkout.deliveryAddress.ZipCode + "','" + LoginUserIdentifier + "','" + checkout.CheckoutTime + "')";
 
 
             //Finds all the items with the customers session ID 
             var SQLQuery3 = "SELECT [CheckOutItemsList].[ID],[CheckOutItemsList].[ProdID],[CheckOutItemsList].[ProdQty], [products].[price]" +
-            " FROM[webstore_db].[dbo].[CartLineItem] as [CheckOutItemsList] " + 
+            " FROM [WebStore_db].[dbo].[CartLineItem] as [CheckOutItemsList] " +
               "left join[products] " +
              "on[CheckOutItemsList].[ProdID] = [products].[id]  where [SessionID] ='" + checkout.SessionId + "'";
-			//gets the results 
+            //gets the results 
             var SelectResults = _context.checkoutitemlist.FromSql(SQLQuery3);
-			//declares item string that will contain the list of items 
+            //declares item string that will contain the list of items 
             var ItemStr = "";
-			
+
             Decimal ItemTotal = 0;
-			//loops through results and builds out the lust
-            foreach (var item in SelectResults) 
+            //loops through results and builds out the lust
+            foreach (var item in SelectResults)
             {
                 ItemTotal = ItemTotal + (item.price * item.ProdQty);
-				//gets session Id, prod id, and prod qty later to be used to insert into order lines table 
-                ItemStr = ItemStr + "('"+ checkout.SessionId.ToString() + "','"  + item.ProdID.ToString() + "','" + item.ProdQty.ToString() + "'),";
+                //gets session Id, prod id, and prod qty later to be used to insert into order lines table 
+                ItemStr = ItemStr + "('" + checkout.SessionId.ToString() + "','" + item.ProdID.ToString() + "','" + item.ProdQty.ToString() + "'),";
 
 
-            }   
+            }
 
 
-			//if user submits request without first adding to shopping cart will result in a bad request 
+            //if user submits request without first adding to shopping cart will result in a bad request 
             if (ItemStr.Equals(""))
             {
 
@@ -119,24 +119,24 @@ namespace Webstore_back__end.Controllers
 
 
 
-        
+
         }
 
         private void ChargeCustomer(string paymentToken, decimal itemTotal, string email)
         {
-			//defined api key  to identify one self to strip 
+            //defined api key  to identify one self to strip 
             StripeConfiguration.ApiKey = "sk_test_wGglOzyHYIB92w1Pv5LAUtTD00pF5tUIbg";
 
             var options = new ChargeCreateOptions()
             {
-				//specifies the amount to charge
+                //specifies the amount to charge
                 Amount = Convert.ToInt64(itemTotal * 100),
                 //specifies currency 
-				Currency = "USD",
-				//specifies customer credit card 
+                Currency = "USD",
+                //specifies customer credit card 
                 Source = paymentToken,
-				//also sents customers email to strip for additional identification 
-                Metadata = new Dictionary<string, string>() { {"CustomerEmail", email } }
+                //also sents customers email to strip for additional identification 
+                Metadata = new Dictionary<string, string>() { { "CustomerEmail", email } }
 
             };
             //charges the customer                                      

@@ -29,10 +29,25 @@ namespace Webstore_back__end
 
         public IConfiguration Configuration { get; }
 
+        private readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                builder =>
+                {
+                    builder.AllowAnyOrigin()
+                                        .AllowAnyHeader()
+                                        .AllowAnyMethod();
+
+                });
+            });
+
+
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddDbContext<WebStoreDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("WebStoreDbContext")));
             string domain = $"https://{Configuration["Auth0:Domain"]}/";
@@ -43,7 +58,7 @@ namespace Webstore_back__end
 
                 }).AddJwtBearer(Options =>
                 {
-                    
+
                     Options.Authority = domain;
                     Options.Audience = Configuration["Auth0:ApiIdentifier"];
                     Options.RequireHttpsMetadata = false;
@@ -54,7 +69,7 @@ namespace Webstore_back__end
 
                 });
 
-            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,17 +85,9 @@ namespace Webstore_back__end
                 app.UseHsts();
             }
 
-            
 
-            app.UseCors(builder =>
-                  builder.WithOrigins(
-                    "https://reactwebstore.azurewebsites.net",
-                    "http://localhost:3000",
-                    "http://localhost")
-                  .AllowAnyHeader()
-                  .AllowAnyMethod()
-                  ); ;
 
+            app.UseCors(MyAllowSpecificOrigins);
             app.UseAuthentication();
             app.UseMvc();
         }

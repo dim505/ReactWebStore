@@ -6,16 +6,11 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Snackbar from "@material-ui/core/Snackbar";
-import Axios from 'axios'
+import Axios from "axios";
 
-
-
-//this button is used to remove items from the shopping cart 
-export default function RemoveButton (props)  {
- 
-
+//this button is used to remove items from the shopping cart
+export default function RemoveButton(props) {
   const [open, setOpen] = React.useState(false);
- 
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -25,26 +20,23 @@ export default function RemoveButton (props)  {
     setOpen(false);
   };
 
-  async function handleClickOpenSnBar ()  {
+  async function handleClickOpenSnBar() {
     setOpen(false);
 
-    //makes the API call 
-    await Axios.delete(`https://webstorebackend.azurewebsites.net/api/cart/${localStorage.SessionId}/lines/${props.id}`);
-    //invokes the parent function to refresh the cart 
+    //makes the API call
+    await Axios.delete(
+      `http://localhost:51129/api/cart/${localStorage.SessionId}/lines/${props.id}`
+    );
+    //invokes the parent function to refresh the cart
     props.onItemRemoved();
-
-    
-
-  };
-
-
+  }
 
   return (
     <div>
       <Button variant="outlined" color="secondary" onClick={handleClickOpen}>
         Remove Item
       </Button>
-   
+
       <Dialog
         open={open}
         onClose={handleClose}
@@ -73,7 +65,7 @@ export default function RemoveButton (props)  {
         open={props.openSnBar}
         onClose={handleClose}
         ContentProps={{
-          "aria-describedby": "message-id"
+          "aria-describedby": "message-id",
         }}
         message={<span id="message-id">Item Removed</span>}
       />
