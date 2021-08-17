@@ -18,7 +18,7 @@ export default class MyOrders extends React.Component {
   GetHistoricalOrders = async () => {
     const BearerToken = await this.props.auth.getTokenSilently();
     //makes api call to get all orders
-    var results = await Axios.get("http://localhost:51129/api/login", {
+    var results = await Axios.get("https://webstorebackend.azurewebsites.net/api/login", {
       headers: { Authorization: `bearer ${BearerToken}` },
     }).then((results) => {
       this.setState({

@@ -29,7 +29,7 @@ export default class DefCustomerDetails extends React.Component {
     const BearerToken = await this.props.auth.getTokenSilently();
     //Makes API call to get account user name and email
     var results = await axios
-      .get("http://localhost:51129/api/login/GetDefCustomerDetails", {
+      .get("https://webstorebackend.azurewebsites.net/api/login/GetDefCustomerDetails", {
         headers: { Authorization: `bearer ${BearerToken}` },
       })
       .then(async (results) => {

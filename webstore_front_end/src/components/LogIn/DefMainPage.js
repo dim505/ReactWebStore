@@ -78,7 +78,7 @@ export default class DefMainPage extends React.Component {
       //makes API post request
       axios
         .post(
-          "http://localhost:51129/api/login/UpdatDefCustomerDetails",
+          "https://webstorebackend.azurewebsites.net/api/login/UpdatDefCustomerDetails",
           Mydata,
 
           {
@@ -109,7 +109,7 @@ export default class DefMainPage extends React.Component {
       Mydata.DefBillAddr = DefBillAddr;
       //makes API post request
       axios
-        .post("http://localhost:51129/api/Login/UpdateDefBillAddr", Mydata, {
+        .post("https://webstorebackend.azurewebsites.net/api/Login/UpdateDefBillAddr", Mydata, {
           headers: { Authorization: `bearer ${BearerToken}` },
         })
         .then(await this.setState({ UpdateSuccessfulNotifi: true }));
@@ -137,7 +137,7 @@ export default class DefMainPage extends React.Component {
       MyData.DefDelivAddr = DefDelivAddr;
       //makes API post request
       axios
-        .post("http://localhost:51129/api/Login/UpdateDefDelivAddr", MyData, {
+        .post("https://webstorebackend.azurewebsites.net/api/Login/UpdateDefDelivAddr", MyData, {
           headers: { Authorization: `bearer ${BearerToken}` },
         })
         .then(await this.setState({ UpdateSuccessfulNotifi: true }));

@@ -67,7 +67,7 @@ export default class AddToCart extends React.Component {
               //makes POST API request
               Mydata.Postdata = PostRequest;
               let result = Axios.post(
-                "http://localhost:51129/api/cart",
+                "https://webstorebackend.azurewebsites.net/api/cart",
                 Mydata
               ).then((response) => {
                 console.log(response);

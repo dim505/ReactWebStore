@@ -29,7 +29,7 @@ export default class CustBillAddr extends React.Component {
 
     //Makes API call to get Billing address for account user
     results = await axios
-      .get("http://localhost:51129/api/login/GetDefBillAddr", {
+      .get("https://webstorebackend.azurewebsites.net/api/login/GetDefBillAddr", {
         headers: { Authorization: `bearer ${BearerToken}` },
       })
       .then(async (results) => {

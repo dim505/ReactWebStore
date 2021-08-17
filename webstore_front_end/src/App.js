@@ -37,54 +37,39 @@ export default class App extends React.Component {
     };
   }
 
-  async GetAllProd() {
+   GetAllProd() {
     var that = this;
 
     let results = 0;
+    setTimeout( ()=> {
     //makes api call
-    results = await Axios({
-      url: "http://localhost:51129/api/productapi",
+    results =  Axios({
+      url: "https://webstorebackend.azurewebsites.net/api/productapi",
     })
       .then(
-        setTimeout((results) => {
-          // if call is seccessful, it will overwrite value of 0 and proceed to set state
-          if (results !== 0) {
-            that.setState({
-              IntialProducts: results.data,
-              products: results.data,
-              showSpinner: false,
-              showBody: true,
-            });
-          } else {
-          }
-        }, 2000)
+      (results) => {
+         
+       
+
+                  // if call is seccessful, it will overwrite value of 0 and proceed to set state
+                  if (results !== undefined) {
+                    that.setState({
+                      IntialProducts: results.data,
+                      products: results.data,
+                      showSpinner: false,
+                      showBody: true,
+                    });
+                  }
+      
+  }
+      
       )
-      //if it fails it will try to make another API call
-      .catch(() => {
-        results = Axios({
-          url: "http://localhost:51129/api/productapi",
-        })
-          .then(
-            // if it succeeds it will set state
-            setTimeout(() => {
-              if (results !== undefined) {
-                that.setState({
-                  IntialProducts: results.data,
-                  products: results.data,
-                  showSpinner: false,
-                  showBody: true,
-                });
-              } else {
-              }
-            }, 2000)
-          )
-          .catch(
-            // if it fails, it will set the ShowBrokenSite flag so a broken site message will appear
-            this.setState({
-              ShowBrokenSite: true,
-            })
-          );
-      });
+
+
+
+    }, 2000)
+
+    
   }
 
   async componentDidMount() {

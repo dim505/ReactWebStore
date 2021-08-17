@@ -25,7 +25,7 @@ export default function RemoveButton(props) {
 
     //makes the API call
     await Axios.delete(
-      `http://localhost:51129/api/cart/${localStorage.SessionId}/lines/${props.id}`
+      `https://webstorebackend.azurewebsites.net/api/cart/${localStorage.SessionId}/lines/${props.id}`
     );
     //invokes the parent function to refresh the cart
     props.onItemRemoved();
